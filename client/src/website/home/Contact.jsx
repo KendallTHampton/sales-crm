@@ -16,7 +16,7 @@ import {showModal} from '../../reduxSlices/Modal';
 
 const Contact = () => {
     const [characterCount, setCharacterCount] = useState(1500)
-    const [sendTicket, {data, isLoading}] = useSendTicketMutation()
+    const [sendTicket] = useSendTicketMutation()
     const [category, setCategory] = useState('')
 
     const messageRef = useRef()

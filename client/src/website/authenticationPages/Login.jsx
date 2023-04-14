@@ -14,7 +14,7 @@ import {useDispatch} from "react-redux";
 function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [loginUser, {data, isLoading}] = useLoginUserMutation()
+    const [loginUser,] = useLoginUserMutation()
     const [error, setError] = useState(null);
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -26,7 +26,7 @@ function Login() {
         const password = passwordRef.current.value.trim();
         const confirmPassword = confirmPasswordRef.current.value.trim();
 
-        if (password !== confirmPasswordRef.current.value) {
+        if (password !== confirmPassword) {
             setError("Passwords do not match")
             return;
         }
