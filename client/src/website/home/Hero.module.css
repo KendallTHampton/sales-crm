@@ -1,0 +1,502 @@
+.section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden;
+    width: 100vw;
+    background-color: var(--secondary-color);
+    font-family: 'Readex Pro', sans-serif;
+}
+
+
+
+.title span {
+    font-size: inherit;
+    font-family: 'Readex Pro', sans-serif;
+    font-weight: 600;
+}
+
+.container {
+    padding: 8rem 4rem;
+    position: relative;
+    z-index: 200;
+    min-height: 90vh;
+}
+
+.wavesContainer {
+    position: absolute;
+    width: 100vw;
+    height: 10vh;
+    bottom: 0;
+    background: var(--primary-color);
+    z-index: 105;
+}
+
+
+@keyframes wave1 {
+
+    0%,
+    100% {
+        background-position-x: 0vw;
+    }
+
+    50% {
+        background-position-x: -100vw;
+    }
+}
+
+@keyframes wave2 {
+
+    0%,
+    100% {
+        background-position-x: 100vw;
+    }
+
+    50% {
+        background-position-x: 0vw;
+    }
+}
+
+@keyframes wave3 {
+
+    0%,
+    100% {
+        background-position-x: 0vw;
+    }
+
+    50% {
+        background-position-x: -100vw;
+    }
+}
+
+@keyframes wave4 {
+
+    0%,
+    100% {
+        background-position-x: -100vw;
+    }
+
+    50% {
+        background-position-x: 0vw;
+    }
+}
+
+.wave {
+    position: absolute;
+    top: -75px;
+    left: 0;
+    width: 100vw;
+    height: 100px;
+    background-image: url('wave.png');
+    background-size: 100vw 110px;
+}
+
+.wave.wave1 {
+    z-index: 100;
+    opacity: 1;
+    animation: wave1 16s linear infinite;
+}
+
+.wave.wave2 {
+    z-index: 99;
+    opacity: .5;
+    animation-delay: -4s;
+    animation: wave2 16s linear infinite;
+}
+
+.wave.wave3 {
+    z-index: 98;
+    opacity: .3;
+    animation-delay: -6s;
+    animation: wave3 16s linear infinite;
+}
+
+.wave.wave4 {
+    z-index: 101;
+    opacity: .5;
+    animation-delay: -8s;
+    animation: wave4 16s linear infinite;
+}
+
+
+.hero {
+    display: flex;
+    height: 100%;
+    color: white;
+}
+
+.heroLeft {
+    display: flex;
+    flex-direction: column;
+    flex: .7;
+    gap: .75rem;
+}
+
+.heroRight {
+    flex: .3;
+}
+
+
+.title span {
+    display: block;
+
+}
+
+.title span div {
+    display: inline-block;
+    color: #06b898;
+}
+
+.pitch {
+    font-size: .9rem;
+    line-height: 1.5rem;
+    width: 80%;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2rem;
+}
+
+.button {
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.buttonContainer button:nth-child(1) {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #06b898;
+}
+
+.buttonContainer button:nth-child(1):hover {
+    background-color: #06b898;
+    color: #fff;
+    border: 2px solid #06b89700;
+    transition: .6s ease-in-out;
+}
+
+.buttonContainer button:nth-child(2) {
+    background-color: #1242ba;
+    color: #ffffff;
+    border: 2px solid #1242ba;
+}
+
+
+.buttonContainer button:nth-child(2):hover {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #1242ba;
+    transition: .6s ease-in-out;
+}
+
+.button {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 12px 24px;
+    gap: 8px;
+}
+
+
+.hero img {
+    width: 450px;
+    object-fit: cover;
+}
+
+
+.desc {
+    text-align: center;
+    position: relative;
+    bottom: 0%;
+    top: 10%;
+}
+
+.desc h2 {
+
+    font-size: 1.8rem;
+}
+
+@media screen and (max-width: 1024px) {
+
+    .title {
+        font-size: 2.5rem
+    }
+
+    .pitch {
+        font-size: .8rem
+    }
+
+    .button {
+        font-size: .85rem;
+    }
+
+}
+
+
+@media screen and (max-width: 968px) {
+    .title {
+        font-size: 2.25rem;
+
+    }
+
+    .pitch {
+        font-size: .75rem;
+    }
+
+    .button {
+        font-size: .8rem;
+    }
+
+    .buttonContainer button:nth-child(1) {
+        padding: 8px 16px;
+        font-size: .8rem;
+    }
+
+    .buttonContainer button:nth-child(2) {
+        padding: 8px 16px;
+        font-size: .8rem;
+    }
+
+    .hero img {
+        width: 300px;
+    }
+
+    .desc {
+        top: 18%;
+    }
+
+    .desc h2 {
+        font-size: 1.6rem;
+    }
+
+}
+
+
+@media screen and (max-width: 768px) {
+
+    .pitch {
+        width: 100%
+    }
+
+    .hero {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 1.5rem;
+        align-items: center;
+        height: 100%;
+    }
+
+    .heroLeft {
+        display: flex;
+        gap: .5rem;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+    }
+
+    .title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .pitch {
+        font-size: .8rem;
+        line-height: 1.5rem;
+    }
+
+    .buttonContainer {
+        gap: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .buttonContainer button:nth-child(1) {
+        padding: 8px 16px;
+        font-size: .7rem;
+    }
+
+    .buttonContainer button:nth-child(2) {
+        padding: 8px 16px;
+        font-size: .7rem;
+    }
+
+    .hero img {
+        width: 250px;
+    }
+
+
+    span {
+        display: inline-block;
+    }
+
+    .desc {
+        top: 12%;
+    }
+
+    .desc h2 {
+        font-size: 1.2rem;
+        line-height: 1.5rem;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+    .hero img {
+        width: 350px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .hero img {
+        width: 280px;
+    }
+
+    .title {
+        font-size: 1.75rem;
+    }
+
+    .pitch {
+        font-size: 0.7rem;
+    }
+
+    .button {
+        font-size: 0.75rem;
+    }
+
+    .buttonContainer button:nth-child(1),
+    .buttonContainer button:nth-child(2) {
+        padding: 8px 12px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .hero img {
+        width: 230px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .pitch {
+        font-size: 0.65rem;
+    }
+
+    .button {
+        font-size: 0.7rem;
+    }
+
+    .buttonContainer button:nth-child(1),
+    .buttonContainer button:nth-child(2) {
+        padding: 6px 10px;
+    }
+}
+
+
+@media (max-width: 540px) {
+    .title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .pitch {
+        font-size: .8rem;
+        line-height: 1.25rem;
+    }
+
+    .buttonContainer {
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+
+    .buttonContainer button:nth-child(1) {
+        padding: 6px 8px;
+        font-size: .8rem;
+    }
+
+    .buttonContainer button:nth-child(2) {
+        padding: 6px 8px;
+        font-size: .8rem;
+    }
+
+    .hero img {
+        width: 200px;
+    }
+
+
+    span {
+        display: inline-block;
+    }
+
+    .desc {
+        text-align: center;
+        position: relative;
+        top: 15%;
+    }
+
+    .desc h2 {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+}
+
+@media (max-width: 340px) {
+    .title {
+        font-size: 1.5rem;
+        line-height: 28px;
+        text-align: center;
+    }
+
+    .pitch {
+        font-size: .7rem;
+        line-height: 1rem;
+    }
+
+    .buttonContainer {
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+
+    .buttonContainer button:nth-child(1) {
+        padding: 6px 8px;
+        font-size: .5rem;
+    }
+
+    .buttonContainer button:nth-child(2) {
+        padding: 6px 8px;
+        font-size: .6rem;
+    }
+
+    .hero img {
+        width: 200px;
+    }
+
+
+    span {
+        display: inline-block;
+    }
+
+    .desc {
+        text-align: center;
+        position: relative;
+        bottom: 0%;
+        top: 15%;
+    }
+
+    .desc h2 {
+        font-size: 1rem;
+        line-height: 1.25rem;
+    }
+
+}

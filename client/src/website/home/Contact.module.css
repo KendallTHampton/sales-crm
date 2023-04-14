@@ -1,0 +1,210 @@
+.section {
+    background: linear-gradient(109.93deg, #1BC9AA 0%, #109EC4 100%);
+    min-height: 90vh;
+}
+
+.container {
+    display: flex;
+    padding: 4rem;
+    gap: 1rem;
+    align-items: center;
+}
+
+.subtitle {
+    color: #06b898;
+    margin-top: .5rem;
+}
+
+.contactInfo {
+    flex: .4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+
+.contactImage {
+    width: 400px;
+    height: 400px;
+    object-fit: contain;
+}
+
+/* CONTACT FORM */
+.contact {
+    display: flex;
+    flex: .6;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+.contactForm {
+    position: relative;
+    gap: 1.5rem;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+}
+
+.contactHeader {
+    color: white;
+}
+
+
+.formControls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+
+.formControls input,
+.formControls select,
+.formControls textarea {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px 12px;
+    font-weight: 600;
+    font-size: 14px;
+    background-color: rgba(0, 0, 0, 0.151);
+    border: 1px solid #FFFFFF;
+    border-radius: 20px;
+    color: #FFFFFF;
+}
+
+
+
+.inputs {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: repeat(2, auto);
+    gap: 1rem;
+}
+
+.textArea {
+    width: 100%;
+    min-height: 200px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 20px 12px;
+    resize: none;
+}
+
+
+span {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+textarea::placeholder {
+    color: #FFFFFF;
+}
+
+
+
+.messageBox {
+    margin-top: 1rem;
+    flex: .8;
+    max-width: inherit;
+    min-width: 100%;
+    font-weight: 600;
+    font-size: 18px;
+    color: #FFFFFF;
+}
+
+.contactButton {
+    background: black;
+    color: #fff;
+    padding: .8rem 1.5rem;
+    border: none;
+    margin: 0rem auto auto 0rem;
+    font-family: 'Readex Pro', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+
+}
+
+.contactFormDisabled {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.contactFormDisabled div {
+    background-color: red;
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 45%;
+    text-align: center;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.35);
+}
+
+@media screen and (max-width: 1024px) {
+    .inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+}
+
+
+@media screen and (max-width: 768px) {
+
+
+
+    .container {
+        flex-direction: column;
+    }
+
+    .contactInfo {
+        flex: 1;
+        align-items: center;
+        text-align: center;
+    }
+
+    .contactForm {
+        flex: 1;
+    }
+
+
+    .contactFormDisabled {
+        width: 100%;
+        height: 100%;
+    }
+
+    .contactImage {
+        width: 200px;
+        height: 200px;
+    }
+
+    textArea {
+        width: 100%;
+        min-height: 250px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .contact .desc {
+        font-size: .75rem;
+    }
+
+    .disabledMessage {
+        font-size: .75rem;
+    }
+}

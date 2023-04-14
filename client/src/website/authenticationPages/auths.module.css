@@ -1,0 +1,179 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8rem 4rem;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--secondary-color);
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem;
+    margin-bottom: 4rem;
+    width: 500px;
+    height: auto;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0px 0px 22px 5px rgba(0, 0, 0, 0.18);
+}
+
+.formContainer h2 {
+    color: var(--secondary-color);
+    margin-bottom: .5rem;
+}
+
+.formContainer .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.formControls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formControls input {
+    padding: .8rem;
+    border: rgba(0, 0, 0, 0.25) 1px solid;
+    border-radius: 10px;
+    flex: 1;
+    width: 350px;
+}
+
+.formControls input::placeholder {
+    color: rgba(0, 0, 0, 0.30);
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.form button {
+    background: var(--primary-color);
+    color: #fff;
+    padding: .75rem 4rem;
+    border: 1px solid var(--primary-color);
+    margin: auto;
+    font-family: 'Readex Pro', sans-serif;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form button:hover {
+    background: transparent;
+    color: #000000;
+    transition: .5s;
+}
+
+.form a {
+    color: #0066FF;
+    text-decoration: underline;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.form p {
+    color: #000000;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .formContainer h2 {
+        font-size: 1.5rem;
+    }
+
+    .formContainer {
+        gap: .5rem;
+        width: 400px;
+
+    }
+
+    .formControls input {
+        width: 100%;
+    }
+
+    .formControls {
+        width: 100%;
+    }
+
+    .formContainer p {
+        font-size: 14px;
+    }
+
+    .formContainer a {
+        font-size: 14px;
+    }
+
+    .formContainer button {
+        padding: .5rem 2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .formContainer {
+        width: 320px;
+
+        padding: 1.5rem .75rem;
+    }
+
+    .formControls input {
+        padding: 1rem;
+        font-size: .75rem;
+    }
+
+    .formControls {
+        gap: 1rem;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .formContainer {
+        width: 280px;
+        padding: .5rem;
+    }
+
+    .formContainer h2 {
+        font-size: 1.25rem;
+    }
+
+    .formControls input {
+        padding: .4rem;
+    }
+
+    .formControls {
+        gap: 8px;
+    }
+
+    .form button {
+        padding: .5rem 1.5rem;
+        font-size: 14px;
+    }
+
+    .form a {
+        font-size: 12px;
+    }
+
+    .form p {
+        font-size: 12px;
+    }
+
+    .error {
+        font-size: 12px;
+    }
+}

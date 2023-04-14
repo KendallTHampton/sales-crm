@@ -1,0 +1,198 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    min-height: 90vh;
+    width: 100vw;
+}
+
+.container {
+    padding: 4rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.title {
+    color: var(--primary-color);
+    margin-bottom: .5rem;
+}
+
+.subtitle {
+    color: var(--secondary-color);
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+
+.servicesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+    gap: 4rem;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.serviceCard {
+    background-color: white;
+    position: relative;
+    border-radius: 10px;
+    padding: 2rem 1rem;
+    box-shadow: 0 0 10px 2px #525252;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    height: 300px;
+    width: 300px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+
+.serviceImage {
+    color: white;
+    object-fit: contain;
+    width: 80px;
+    height: 80px;
+}
+
+.serviceTitle {
+    margin-top: .25rem;
+}
+
+.serviceContent {
+    text-align: center;
+    flex: 1;
+
+}
+
+.serviceDesc {
+    color: #9096a1c7;
+    margin-top: .5rem;
+    font-weight: 600;
+}
+
+
+.learnMoreDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+    margin-top: 2rem;
+}
+
+.learnMore {
+    color: blue;
+    text-decoration: underline;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.learnMoreIcon {
+    animation: arrowMove 3s infinite;
+}
+
+
+@keyframes arrowMove {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(10px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+@media (max-width: 1024px) {
+    .title {
+        font-size: 2.25rem;
+    }
+
+    .serviceDesc {
+        font-size: 1rem;
+    }
+
+
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .serviceCard {
+        width: 275px;
+        height: 275px;
+    }
+
+
+    .serviceTitle {
+        font-size: 1rem;
+    }
+
+    .serviceDesc {
+        font-size: .75rem;
+    }
+
+
+}
+
+
+@media (max-width: 560px) {
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: .75rem;
+    }
+
+
+    .servicesContainer {
+        gap: 2rem;
+        margin: 1rem 0;
+    }
+
+    .serviceTitle {
+        font-size: .75rem;
+    }
+
+    .serviceDesc {
+        font-size: .5rem;
+    }
+
+    .serviceImage {
+        width: 50px;
+        height: 50px;
+    }
+
+    .serviceCard {
+        width: 225px;
+        height: 225px;
+    }
+
+    .serviceCard p {
+        font-size: .75rem;
+    }
+
+    .learnMore {
+        font-size: .65rem;
+    }
+}
