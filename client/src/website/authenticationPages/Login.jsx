@@ -38,9 +38,10 @@ function Login() {
         try {
             await signInWithEmailAndPassword(auth, email, password)
             await loginUser({email, password}).then(results => {
-                localStorage.setItem('user', JSON.stringify(results.data[0]))
-                localStorage.setItem('token', JSON.stringify(results.data[1]))
-                dispatch(setCurrentUser(results.data.user))
+                localStorage.setItem('user', JSON.stringify(...results.data.data))
+
+                dispatch(setCurrentUser(results.data.data))
+
             })
             emailRef.current.value = "";
             passwordRef.current.value = "";

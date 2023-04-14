@@ -47,10 +47,14 @@ function App() {
     }
   })
 
+
+
   const userObject = useSelector((state) => state.user.currentUser)
   const [userState, setUserState] = useState('')
-  const userIsLoggedIn = userObject ? JSON.parse(userObject) : false
+  const userIsLoggedIn = userObject ? userObject : false
   const userIsAdmin = userIsLoggedIn && userIsLoggedIn.isAdmin === true ? true : false
+
+
 
 
   useEffect(() => {

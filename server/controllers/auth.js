@@ -33,25 +33,9 @@ export const login = async (req, res) => {
             res.status(400).json({error: 'Invalid Credentials'});
         }
         const user = await User.find({email: email, password: password}).select('firstName lastName email isAdmin');
+        console.log(user)
 
-        // Found User in MongoDB
-        const userId = user[0]._id;
-
-        // Create Access Token and Refresh Token
-        const accessToken = jwt.sign({userId}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '30s'});
-        const refreshToken = jwt.sign({userId}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'});
-
-
-        res.cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000});
-        res.status(200).json([
-            ...user,
-            {
-                accessToken: accessToken,
-
-            }
-        ]);
-
-
+        res.status(200).json({data: user});
 
     } catch (error) {
         res.status(500).json({error: error.message})
