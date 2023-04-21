@@ -6,12 +6,14 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import {Outlet} from 'react-router-dom';
 
-const drawerWidth = 240;
+
 
 const Layout = () => {
     const isNonMobile = useMediaQuery("(min-width: 600px)");
     const [isSidebarOpen, setIsSidebarOpen] = useState(true)
-    const userObject = useSelector((state) => JSON.parse(state.user.currentUser))
+    const userObject = useSelector((state) => state.user.currentUser)
+
+    const drawerWidth = isNonMobile ? 240 : 180;
 
 
     return (
@@ -28,6 +30,8 @@ const Layout = () => {
                 maxWidth={isSidebarOpen ? `calc(100vw - ${ drawerWidth }px)` : "100vw"}
             >
                 <Navbar
+                    isNonMobile={isNonMobile}
+                    drawerWidth={drawerWidth}
                     user={userObject || {}}
                     isSidebarOpen={isSidebarOpen}
                     setIsSidebarOpen={setIsSidebarOpen}

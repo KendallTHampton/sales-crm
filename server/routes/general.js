@@ -1,17 +1,15 @@
 import express from "express";
-import {getUsers, getUserById, getAdmins} from "../controllers/general.js";
+import {getUsers, getUserById, getAdmins, updateUser} from "../controllers/general.js";
 
 
 
 const router = express.Router();
 
 
-// Authentication 
-
-
 // Users
 router.get('/users', getUsers)
-router.get('/user/:id', getUserById)
+router.get('/users/:id', getUserById)
+router.put('/users/edit/:id', updateUser)
 router.get('/admins', getAdmins)
 
 

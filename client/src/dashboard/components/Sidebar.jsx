@@ -18,6 +18,7 @@ import PieChartIcon from '@mui/icons-material/PieChart';
 import CampaignIcon from '@mui/icons-material/Campaign';
 
 import {useNavigate} from 'react-router-dom';
+import {useLocation} from "react-router-dom";
 
 const routes = [
 
@@ -29,8 +30,8 @@ const routes = [
                 icon: <ConfirmationNumberIcon />
             },
             {
-                path: 'leads',
-                name: 'Leads',
+                path: 'contacts',
+                name: 'Contacts',
                 icon: <ContactPageIcon />
             },
             {
@@ -41,43 +42,45 @@ const routes = [
         ]
     },
 
-    {
-        Analytics: [
-            {
-                path: 'analytics',
-                name: 'Analytics',
-                icon: <BarChartIcon />
-            },
-            {
-                path: 'performance',
-                name: 'Performance',
-                icon: <PieChartIcon />
-            }
-        ]
-    },
+    // {
+    //     Analytics: [
+    //         {
+    //             path: 'analytics',
+    //             name: 'Analytics',
+    //             icon: <BarChartIcon />
+    //         },
+    //         {
+    //             path: 'performance',
+    //             name: 'Performance',
+    //             icon: <PieChartIcon />
+    //         }
+    //     ]
+    // },
 
 
 
-    {
-        Management: [
-            {
-                path: 'settings',
-                name: 'Settings',
-                icon: <SettingsIcon />
-            }
-        ]
-    }
+    // {
+    //     Management: [
+    //         {
+    //             path: 'settings',
+    //             name: 'Settings',
+    //             icon: <SettingsIcon />
+    //         }
+    //     ]
+    // }
 ]
 
 const Sidebar = ({
     drawerWidth,
     isSidebarOpen,
     setIsSidebarOpen,
+    isNonMobile,
 }) => {
 
 
     const navigate = useNavigate();
-    const [active, setActive] = useState('tickets')
+    const location = useLocation();
+    const [active, setActive] = useState(location.pathname.split('/')[2] || 'tickets');
 
     return (
         <Box
@@ -95,11 +98,11 @@ const Sidebar = ({
                         width: drawerWidth,
                         flexShrink: 0,
                         '& .MuiDrawer-paper': {
-                            width: "240px",
+                            width: drawerWidth, // Update the width value here
                             boxSizing: 'border-box',
                             background: 'rgba(60, 60, 68, 1)',
                             color: '#52F4EB',
-                            boxShadow: "0px 0px 10px 2px rgba(0,0,0,0.6)"
+                            boxShadow: "0px 0px 10px 2px rgba(0,0,0,0.6)",
                         },
                     }}
                 >
@@ -108,11 +111,12 @@ const Sidebar = ({
                         alignItems: 'center',
                         padding: '0 1.5rem',
                         height: "5rem",
-                        justifyContent: 'flex-end',
+                        justifyContent: "space-between"
                     }}>
                         <h2
                             style={{
                                 color: 'white',
+                                fontSize: `${ isNonMobile ? '2.5rem' : '1.5rem' }`
                             }}
                         >
                             Digitell

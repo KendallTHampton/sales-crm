@@ -14,93 +14,112 @@
     margin-bottom: 3rem;
 }
 
-
-.containerGrid {
-    display: grid;
-    flex-wrap: wrap;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+.carousel {
+    cursor: grab;
+    display: flex;
     gap: 1rem;
 }
 
-.rowOne {
+.innerCarousel {
     display: flex;
-    position: relative;
-}
-
-
-.rowTwo {
-    display: flex;
-    position: relative;
+    gap: 1rem;
 }
 
 .card {
     background: linear-gradient(180deg, #204D59 0%, #1E1927 100%);
     border-radius: 15px;
     height: 100%;
-    padding: 1rem;
+    width: 400px;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    gap: .5rem;
+    gap: 2rem;
 }
 
-.stars {
-    color: #1BC9AA;
+.starsContainer {
+    flex: .1;
+}
 
+.starsContainer svg {
+    font-size: 1.75rem;
+    color: #1BC9AA;
+}
+
+.review {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #FFFFFF;
+    opacity: 0.8;
+    display: flex;
+    align-items: flex-start;
+    flex: .9;
+}
+
+.reviewerName {
+    font-size: 1.5rem;
 }
 
 @media screen and (max-width: 968px) {
+    .card {
+        width: 300px
+    }
 
-    .stars {
-        font-size: 1rem;
+    .starsContainer svg {
+        font-size: 1.5rem;
     }
 
     .review {
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
 
-    .name {
+    .reviewerName {
         font-size: 1rem;
     }
 }
 
-
-@media screen and (max-width: 768px) {
-
-
-
-    .stars {
-        font-size: 1rem;
-    }
-
-    .review {
-        font-size: 0.8rem;
-    }
-
-    .name {
-        font-size: 1rem;
-    }
-}
 
 @media screen and (max-width: 560px) {
     .title {
-        font-size: 1rem;
+        font-size: 2rem;
+    }
+
+    .card {
+        width: 200px;
+        gap: 1rem;
+        padding: 1rem;
     }
 
     .subtitle {
-        font-size: .5rem;
+        font-size: .7rem;
+        margin-top: .25rem;
     }
-
 
     .review {
-        font-size: 0.5rem;
+        font-size: .75rem;
     }
 
-    .stars {
-        font-size: 0.65rem;
+    .starsContainer svg {
+        font-size: 1rem;
     }
 
-    .name {
-        font-size: 0.5rem;
+    .reviewerName {
+        font-size: 0.8rem;
     }
+}
+
+
+
+@keyframes infiniteScroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate {
+    display: flex;
+    animation: infiniteScroll 60s linear infinite;
 }

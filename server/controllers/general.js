@@ -13,7 +13,14 @@ export const getUsers = async (req, res) => {
 export const getUserById = async (req, res) => {
     try {
         const id = req.params.id;
-        const user = await User.findById(id).populate('tickets', 'category message status date')
+        const user = await User.findById(id)
+            .populate('managedBy')
+            .populate('submittedTickets')
+            .populate('managedUsers')
+            .populate('createdCampaigns')
+            .populate('usersCampaigns')
+            .exec();
+
         res.status(200).json(user)
     }
     catch (error) {
@@ -31,3 +38,45 @@ export const getAdmins = async (req, res) => {
     }
 }
 
+export const updateUser = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const updatedUser = req.body;
+
+        const oldUser = await User.findById(id); // this is the user before the update
+        const oldManagedBy = oldUser.managedBy; // either null or a user id
+        const newManagedBy = updatedUser.managedBy; // either null or a user id
+
+        if (newManagedBy !== oldManagedBy) {
+            // initial value of oldManagedBy will be null so this will be skipped until we assign a user to a manager or we reassign a user to a different manager or we change the manager of a user to unassigned
+            if (oldManagedBy) {
+                await User.findByIdAndUpdate(
+                    oldManagedBy,
+                    {$pull: {managedUsers: id}},
+                    {new: true}
+                );
+            }
+
+            // if there is a new manager, (initially there will be no manager) then we will add the user to the new manager's managedUsers array (if the user is unassigned, then newManagedBy will be null
+            if (newManagedBy) {
+                await User.findByIdAndUpdate(
+                    newManagedBy,
+                    {$push: {managedUsers: id}},
+                    {new: true}
+                );
+            }
+        }
+
+        const user = await User.findByIdAndUpdate(id, updatedUser, {new: true})
+            .populate('managedBy')
+            .populate('submittedTickets')
+            .populate('managedUsers')
+            .populate('createdCampaigns')
+            .populate('usersCampaigns')
+            .exec();
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(400).json({message: error.message});
+    }
+};

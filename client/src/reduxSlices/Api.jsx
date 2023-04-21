@@ -25,6 +25,15 @@ export const api = createApi({
                 body: body
             })
         }),
+        // Refresh Token
+        refreshToken: build.mutation({
+            query: (body) => ({
+                url: "auth/refresh",
+                method: 'POST',
+                body: body
+            }),
+        }),
+
 
         // Send A Ticket
         sendTicket: build.mutation({
@@ -49,12 +58,41 @@ export const api = createApi({
 
         updateTicket: build.mutation({
             query: (body) => ({
-                url: `/dashboard/tickets/${ body.ticketId }/edit`,
+                url: `/dashboard/tickets/edit/${ body.ticketId }`,
                 method: 'PUT',
                 body: body
             }),
             invalidatesTags: ["Tickets"],
         }),
+
+        deleteTicket: build.mutation({
+            query: (ticketId) => ({
+                url: `/dashboard/tickets/delete/${ ticketId }`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ["Tickets"]
+        }),
+
+        getTicketsSubmittedByUser: build.query({
+            query: (userId) => `/dashboard/tickets/submittedBy/${ userId }`,
+            providesTags: ["Tickets"]
+        }),
+
+        getContacts: build.query({
+            query: (userId) => `/dashboard/contacts/${ userId }`,
+            providesTags: ["Contacts"]
+        }),
+
+        getCampaigns: build.query({
+            query: (userId) => `/dashboard/campaigns/${ userId }`,
+            providesTags: ["Campaigns"]
+        }),
+
+        getCampaignById: build.query({
+            query: (campaignId) => `/dashboard/campaign/${ campaignId }`,
+            providesTags: ["Campaigns"]
+        }),
+
 
         getAdmins: build.query({
             query: () => '/general/admins',
@@ -62,12 +100,23 @@ export const api = createApi({
         }),
 
         getUser: build.query({
-            query: (userId) => `/general/user/${ userId }`,
+            query: (userId) => `/general/users/${ userId }`,
             providesTags: ["User"]
         }),
+
+        updateUser: build.mutation({
+            query: (body) => ({
+                url: `/general/users/edit/${ body.userId }`,
+                method: 'PUT',
+                body: body
+            }),
+            invalidatesTags: ["User", 'Contacts'],
+        }),
+
 
     }),
 })
 
 
-export const {useCreateUserMutation, useLoginUserMutation, useGetTicketsQuery, useSendTicketMutation, useViewTicketQuery, useUpdateTicketMutation, useGetAdminsQuery, useGetUserQuery} = api; 
+
+export const {useCreateUserMutation, useLoginUserMutation, useRefreshTokenMutation, useGetTicketsQuery, useSendTicketMutation, useViewTicketQuery, useUpdateTicketMutation, useDeleteTicketMutation, useGetTicketsSubmittedByUserQuery, useGetAdminsQuery, useGetUserQuery, useUpdateUserMutation, useGetContactsQuery, useGetCampaignsQuery, useGetCampaignByIdQuery} = api; 

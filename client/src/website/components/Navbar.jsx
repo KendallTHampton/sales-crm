@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import styles from './Navbar.module.css';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {signUserOut} from '../../reduxSlices/User';
 import {Outlet} from 'react-router-dom';
 import {
@@ -23,9 +23,10 @@ function Navbar() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
-    const userObject = JSON.parse(localStorage.getItem('user')) || null;
-    const userIsLoggedIn = userObject ? userObject : false;
-    const userIsAdmin = userIsLoggedIn && userIsLoggedIn.isAdmin;
+    const userObject = useSelector((state) => state.user.currentUser);
+    const userIsLoggedIn = userObject ? userObject : false
+    const userIsAdmin = userIsLoggedIn && userIsLoggedIn.isAdmin
+
 
     const handleDrawerToggle = () => {
         setDrawerOpen(!drawerOpen);

@@ -6,7 +6,7 @@ export const ticketData = [
         status: 'Open',
         priority: 'New',
         submittedBy: '63f8d7329df63c3724b0940c',
-        ownedBy: "63f8d7329df63c3724b0940b"
+        ownedBy: "null"
     },
     {
         _id: '63f8d7329df63c3724b0960e',
@@ -15,6 +15,6 @@ export const ticketData = [
         status: 'Open',
         priority: 'New',
         submittedBy: '63f8d7329df63c3724b0940e',
-        ownedBy: "63f8d7329df63c3724b0940b"
+        ownedBy: "null"
     },
 ]

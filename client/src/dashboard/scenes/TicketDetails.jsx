@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useReducer} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {
     Box,
@@ -13,15 +13,19 @@ import {
 } from "@mui/material";
 import {useGetAdminsQuery, useViewTicketQuery} from "../../reduxSlices/Api";
 import {useUpdateTicketMutation} from "../../reduxSlices/Api";
+import {useDeleteTicketMutation} from "../../reduxSlices/Api";
+
+
 
 const TicketDetails = () => {
-
     // QUERIES
     const {ticketId} = useParams();
     const {data: ticket} = useViewTicketQuery(ticketId);
     const {data: adminUsers} = useGetAdminsQuery();
     const [updateTicket] = useUpdateTicketMutation();
+    const [deleteTicket] = useDeleteTicketMutation();
 
+    // ticketData is the ticket we are editing, will be filled once useEffect runs
     const [ticketData, setTicketData] = useState(null);
     const navigate = useNavigate();
 
@@ -33,10 +37,8 @@ const TicketDetails = () => {
 
     console.log(ticketData)
 
-
     const categories = ['Web Development', 'Analytics', 'Branding', 'SEO', 'Billing', 'Other']
-    const priorities = ['New', 'Low', 'Medium', 'High', 'Urgent']
-
+    const priorities = ['Closed', 'New', 'Low', 'Medium', 'High', 'Urgent']
     const statuses = ['Open', 'Negotiating', 'In Progress', 'Closed', 'Reopened']
 
     /* Takes a string and limits the number of consecutive line breaks to the specified number
@@ -47,7 +49,10 @@ const TicketDetails = () => {
         const lineBreakPattern = new RegExp(`(\\n){${ maxLineBreaks + 1 },}`, 'g');
         return text.replace(lineBreakPattern, '\n'.repeat(maxLineBreaks));
     };
-
+    const turnDatesIntoStrings = (dates) => {
+        const date = new Date(dates);
+        return `${ date.toLocaleDateString() }`;
+    };
 
     const Label = ({label}) => {
         return (
@@ -65,19 +70,30 @@ const TicketDetails = () => {
         )
     }
 
-    const submitHandler = async (e) => {
+    const updateHandler = async (e) => {
         e.preventDefault();
         try {
-            const updatedTicket = await updateTicket({ticketId: ticketData._id, ...ticketData}).unwrap();
-            setTicketData(updatedTicket);
+            await updateTicket({ticketId: ticketData._id, ...ticketData}).unwrap();
             navigate(`/dashboard/tickets`);
+
 
         } catch (error) {
             console.error('Failed to update the ticket:', error);
         }
-
-
     }
+
+    const deleteHandler = async (e) => {
+        e.preventDefault();
+        try {
+            await deleteTicket(ticketData._id)
+            navigate(`/dashboard/tickets`);
+        }
+        catch (error) {
+            console.error('Failed To Delete Ticket:', error)
+        }
+    }
+
+
 
 
     return (
@@ -86,9 +102,22 @@ const TicketDetails = () => {
                 Ticket Details
             </h2>
             {ticketData && (
-                <form onSubmit={submitHandler}>
+                <form >
                     <Grid container spacing={4} sx={{'.MuiGrid-root': {paddingTop: '0', marginTop: '16px'}}}>
+
+                        <Grid item xs={12} md={12}>
+                            <Label label="Date" />
+                            <Typography
+                                sx={{
+                                    color: 'var(--primary-color)',
+                                    fontWeight: 'bold'
+                                }}
+                            >
+                                {turnDatesIntoStrings(ticketData.createdAt)}
+                            </Typography>
+                        </Grid>
                         {/* ROW 1 */}
+
                         {/* Submitted */}
                         <Grid item xs={12} md={4}>
                             <Label label="Submitted By" />
@@ -113,8 +142,11 @@ const TicketDetails = () => {
                                 getOptionSelected={(option, value) => option._id === value}
                                 isOptionEqualToValue={(option, value) => option._id === value._id}
                                 renderInput={(params) => (
-                                    <TextField {...params} label="Owned By" variant="outlined" />
+                                    <TextField {...params} label="Owner" variant="outlined" />
                                 )}
+                                sx={{
+                                    width: '80%'
+                                }}
                             />
 
 
@@ -215,20 +247,37 @@ const TicketDetails = () => {
                         </Grid>
                     </Grid>
 
-                    <Button type="submit"
-                        variant="contained"
-                        sx={{
-                            marginTop: '2rem',
-                            backgroundColor: "black",
+                    <Box display="flex" gap='1rem'>
+                        <Button type="submit"
+                            variant="contained"
+                            onClick={updateHandler}
+                            sx={{
+                                marginTop: '2rem',
+                                backgroundColor: "black",
 
-                            '&:hover': {
-                                backgroundColor: 'var(--primary-color)'
-                            }
-                        }}
+                                '&:hover': {
+                                    backgroundColor: 'var(--primary-color)'
+                                }
+                            }}
 
-                    >
-                        Update Ticket
-                    </Button>
+                        >
+                            Update Ticket
+                        </Button>
+                        <Button type="button"
+                            variant="contained"
+                            onClick={(e) => alert('For Demo Purposes, this feature is disabled.')}
+                            sx={{
+                                marginTop: '2rem',
+                                backgroundColor: 'gray',
+                                '&:hover': {
+                                    backgroundColor: 'black',
+                                },
+                            }}
+
+                        >
+                            Delete Ticket
+                        </Button>
+                    </Box>
                 </form>
             )}
         </Box>

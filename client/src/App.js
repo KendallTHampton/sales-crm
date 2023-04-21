@@ -18,88 +18,120 @@ import Tickets from './dashboard/scenes/Tickets';
 import TicketDetails from './dashboard/scenes/TicketDetails';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {onAuthStateChanged} from 'firebase/auth';
 import {auth} from './firebase';
 import {signUserOut, setCurrentUser} from "./reduxSlices/User";
+import jwtDecode from 'jwt-decode';
+import {useRefreshTokenMutation, useLoginUserMutation} from './reduxSlices/Api';
 import User from './dashboard/scenes/UserDetails';
-
-
-
-
-
-
-
+import Contacts from './dashboard/scenes/Contacts';
+import Campaigns from './dashboard/scenes/Campaigns';
+import CampaignDetails from './dashboard/scenes/CampaignDetails';
+import CreateCampaign from './dashboard/scenes/CreateCampaign';
 
 
 function App() {
   const dispatch = useDispatch();
+  const [refreshTokenFunction] = useRefreshTokenMutation();
+  const [loginUser] = useLoginUserMutation();
+  const [loading, setLoading] = useState(true);
 
-  // Auth State listener to check if user is logged in. If so, set user in redux store
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const userObject = localStorage.getItem('user')
-      JSON.parse(userObject)
-      dispatch(setCurrentUser(userObject))
+
+  const checkLoggedInStatus = async () => {
+    const accessToken = localStorage.getItem('accessToken')
+    if (!accessToken) {
+      return Promise.resolve();
     }
-    else {
-      localStorage.removeItem('user')
-      dispatch(signUserOut())
+    const decodedToken = jwtDecode(accessToken);
+    const currentTime = Date.now();
+
+    //Chech if the token isn't expired
+    if (currentTime < decodedToken.exp * 1000) {
+      const user = decodedToken.user;
+      dispatch(setCurrentUser(user));
+
+    } else {
+      // If the token is expired, we need to refresh it
+      const refreshToken = localStorage.getItem('refreshToken');
+      try {
+        // send the refresh token to the server
+        const response = await refreshTokenFunction({refreshToken});
+        const newAccessToken = response.data.accessToken;
+        localStorage.setItem('accessToken', newAccessToken);
+        const newDecodedToken = jwtDecode(newAccessToken);
+        const user = newDecodedToken.user;
+        await loginUser({email: user[0].email});
+        dispatch(setCurrentUser(user[0]));
+      } catch (error) {
+        console.log(error);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+      }
     }
-  })
+  }
+
+  useEffect(() => {
+    checkLoggedInStatus().finally(() => setLoading(false));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
 
 
 
   const userObject = useSelector((state) => state.user.currentUser)
-  const [userState, setUserState] = useState('')
+
   const userIsLoggedIn = userObject ? userObject : false
-  const userIsAdmin = userIsLoggedIn && userIsLoggedIn.isAdmin === true ? true : false
+  const userIsAdmin = userIsLoggedIn && userIsLoggedIn.isAdmin
 
 
-
-
-  useEffect(() => {
-    setUserState(userIsAdmin)
-  }, [userIsAdmin])
 
   // Protecting dashboard routes
   function ProtectedRoute({children, userIsAdmin}) {
-    return JSON.parse(localStorage.getItem('user')).isAdmin ? children : <Navigate to="/" />;
+    return userIsAdmin ? children : <Navigate to="/" />;
   }
 
-  // Modal State
+
 
 
   return (
     <Router>
-      <Routes>
-        {/* Nabar Only Shows Where I Want It To (Not on Dashboard or any child)*/}
-        <Route element={<Navbar />} >
-          <Route path="/" element={<Home />} />
-          <Route path='/profile' element={<Profile />} />
-        </Route>
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <Routes>
+          {/* Nabar Only Shows Where I Want It To (Not on Dashboard or any child) */}
+          <Route element={<Navbar />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
 
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
 
-        {/*MAKE DASHBOARD PRIVATE*/}
-
-        <Route path="/dashboard/*" element={
-          <ProtectedRoute userIsAdmin={userIsAdmin}>
-            <Dashboard />
-          </ProtectedRoute>
-        }>
-          <Route index element={<Navigate to="tickets" />} />
-          <Route path="tickets" element={<Tickets />} />
-          <Route path="tickets/:ticketId" element={<TicketDetails />} />
-          <Route path="tickets/:ticketId/edit" element={<TicketDetails />} />
-          <Route path="user/:userId" element={<User />} />
-          <Route path='leads' element={<div>Leads</div>} />
-
-          <Route path='Settings' element={<div>Settings</div>} />
-
-        </Route>
-      </Routes>
+          {/* MAKE DASHBOARD PRIVATE */}
+          <Route
+            path="/dashboard/*"
+            element={
+              <ProtectedRoute userIsAdmin={userIsAdmin}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Navigate to="tickets" />} />
+            <Route path="tickets" element={<Tickets />} />
+            <Route path="tickets/:ticketId" element={<TicketDetails />} />
+            <Route
+              path="tickets/:ticketId/edit"
+              element={<TicketDetails />}
+            />
+            <Route path="user/:userId" element={<User />} />
+            <Route path="contacts" element={<Contacts />} />
+            <Route path="campaigns" element={<Campaigns />} />
+            <Route path="campaigns/:campaignId" element={<CampaignDetails />} />
+            <Route path='campaigns/create' element={<CreateCampaign />} />
+            <Route path="settings" element={<div>Settings</div>} />
+          </Route>
+        </Routes>
+      )}
     </Router>
   );
 }

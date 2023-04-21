@@ -11,7 +11,7 @@ export const sendATicket = async (req, res) => {
 
             {category, message, submittedBy: user._id}
         )
-        await user.updateOne({$push: {tickets: createTicket._id}})
+        await user.updateOne({$push: {submittedTickets: createTicket._id}})
 
 
         res.status(200).json({message: 'Ticket Sent!'})

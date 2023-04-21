@@ -5,7 +5,7 @@ export const userData = [
         lastName: 'Doe',
         email: 'JohnDoe@gmail.com',
         password: '123456',
-        tickets: [],
+        submittedTickets: [],
         isAdmin: true,
         ticketsOwned: ['63f8d7329df63c3724b0940f', '63f8d7329df63c3724b0960e']
     },
@@ -15,7 +15,7 @@ export const userData = [
         lastName: 'Thomas',
         email: 'MikeThomas@gmail.com',
         password: '234567',
-        tickets: ['63f8d7329df63c3724b0940f'],
+        submittedTickets: ['63f8d7329df63c3724b0940f'],
         isAdmin: false,
         ticketsOwned: []
     },
@@ -25,7 +25,7 @@ export const userData = [
         lastName: 'Smith',
         email: 'AliceSmith@gmail.com',
         password: '345678',
-        tickets: [],
+        submittedTickets: [],
         isAdmin: false,
         ticketsOwned: []
     },
@@ -35,7 +35,7 @@ export const userData = [
         lastName: 'Johnson',
         email: 'BobJohnson@gmail.com',
         password: '456789',
-        tickets: ['63f8d7329df63c3724b0940e'],
+        submittedTickets: ['63f8d7329df63c3724b0940e'],
         isAdmin: false,
         ticketsOwned: []
     }

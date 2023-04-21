@@ -6,8 +6,12 @@ export const UserSchema = new mongoose.Schema({
     email: String,
     password: String,
     isAdmin: {type: Boolean, default: false},
-    tickets: [{type: mongoose.Schema.Types.ObjectId, ref: 'tickets'}],
+    submittedTickets: [{type: mongoose.Schema.Types.ObjectId, ref: 'tickets'}],
     ticketsOwned: [{type: mongoose.Schema.Types.ObjectId, ref: 'tickets'}],
+    managedBy: [{type: mongoose.Schema.Types.ObjectId, ref: 'users', default: []}],
+    managedUsers: [{type: mongoose.Schema.Types.ObjectId, ref: 'users', default: []}],
+    createdCampaigns: [{type: mongoose.Schema.Types.ObjectId, ref: 'campaigns', default: []}],
+    usersCampaigns: [{type: mongoose.Schema.Types.ObjectId, ref: 'campaigns', default: null}]
 },
     {timestamps: true}
 )

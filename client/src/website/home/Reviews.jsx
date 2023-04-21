@@ -1,7 +1,8 @@
-import React from 'react'
-import styles from "./Reviews.module.css"
+import React from 'react';
+import styles from './Reviews.module.css';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderOutlined from '@mui/icons-material/StarBorderOutlined';
+import {useState, useRef, useEffect} from 'react';
 
 const reviewData = [
     {
@@ -36,69 +37,41 @@ const reviewData = [
     }
 ]
 
-
 const Reviews = () => {
     return (
         <section className={styles.section}>
+            {/* HEADER */}
             <header className={styles.sectionHeader}>
-                <h1 className={styles.title}> Our Reviews</h1>
-                <h4 className={styles.subtitle}> What Our Clients Have To Say About Our Work!</h4>
+                <h1 className={styles.title}>Our Reviews</h1>
+                <h4 className={styles.subtitle}>What Our Clients Have To Say About Our Work!</h4>
             </header>
-            <div className={styles.containerGrid}>
+            {/* Carousel container*/}
+            <div className={styles.carousel}>
+                {/* Inner Carousel */}
+                <div className={`${ styles.innerCarousel } ${ styles.animate }`}>
+                    {reviewData.concat(reviewData).map((review, index) => (
+                        // Card
+                        <div
+                            className={styles.card}
+                            key={index}
 
-                {reviewData.slice(0, 3).map((review, index) => (
-                    <div className={styles.rowOne} key={index}>
-                        <div className={styles.card} >
-
-                            <p>
-                                {
-                                    [...Array(review.stars)].map((amount, index) => {
-                                        return <StarIcon className={styles.stars} key={index} />
-                                    }
-                                    )
-                                }
-
-                                {
-                                    [...Array((5 - review.stars))].map((amount, index) => {
-                                        return <StarBorderOutlined className={styles.stars} key={index} />
-                                    })
-                                }
-
-                            </p>
+                        >
+                            <div className={styles.starsContainer}>
+                                {[...Array(review.stars)].map((_, index) => (
+                                    <StarIcon className={styles.stars} key={index} />
+                                ))}
+                                {[...Array(5 - review.stars)].map((_, index) => (
+                                    <StarBorderOutlined className={styles.stars} key={index} />
+                                ))}
+                            </div>
                             <p className={styles.review}>{review.review}</p>
-                            <h4 className={styles.name}>{review.name}</h4>
+                            <h4 className={styles.reviewerName}>{review.name}</h4>
                         </div>
-                    </div>
-                ))}
-
-
-
-                {reviewData.slice(3).map((review, index) => (
-                    <div className={styles.rowTwo} key={index} >
-                        <div className={styles.card} >
-                            <p>
-                                {
-                                    [...Array(review.stars)].map((amount, index) => {
-                                        return <StarIcon className={styles.stars} key={index} />
-                                    })
-                                }
-                                {
-                                    [...Array((5 - review.stars))].map((amount, index) => {
-                                        return <StarBorderOutlined className={styles.stars} key={index} />
-                                    })
-                                }
-                            </p>
-                            <p className={styles.review}>{review.review}</p>
-                            <h4 className={styles.name}>{review.name}</h4>
-                        </div>
-                    </div>
-                ))}
-
+                    ))}
+                </div>
             </div>
+        </section>
+    );
+};
 
-
-        </section >
-    )
-}
-
-export default Reviews
+export default Reviews;

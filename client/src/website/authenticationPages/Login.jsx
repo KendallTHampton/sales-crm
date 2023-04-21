@@ -6,15 +6,12 @@ import {useLoginUserMutation} from '../../reduxSlices/Api';
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {setCurrentUser} from '../../reduxSlices/User';
 import {useDispatch} from "react-redux";
-
-
-
-
+import jwtDecode from 'jwt-decode';
 
 function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [loginUser,] = useLoginUserMutation()
+    const [loginUser] = useLoginUserMutation()
     const [error, setError] = useState(null);
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -37,22 +34,28 @@ function Login() {
 
         try {
             await signInWithEmailAndPassword(auth, email, password)
-            await loginUser({email, password}).then(results => {
-                localStorage.setItem('user', JSON.stringify(...results.data.data))
+            const response = await loginUser({email, password})
 
-                dispatch(setCurrentUser(results.data.data))
 
-            })
+            const accessToken = response.data.accessToken;
+            const refreshToken = response.data.refreshToken;
+
+            const decodedToken = jwtDecode(accessToken);
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            const user = decodedToken.user;
+            dispatch(setCurrentUser(user));
+            navigate('/');
             emailRef.current.value = "";
             passwordRef.current.value = "";
             confirmPasswordRef.current.value = "";
-            navigate("/")
+
 
         } catch (error) {
             setError(error.message)
         }
-
     }
+
 
 
     const clearError = () => {

@@ -52,7 +52,7 @@
 
 .aboutDesc {
     color: #ffffff;
-    line-height: 1.75rem;
+    line-height: 1.25rem;
     font-weight: 600;
 }
 
@@ -111,8 +111,13 @@
 
     .about1 {
         flex-direction: column-reverse;
+        align-items: center;
     }
 
+    .about2 {
+
+        align-items: center;
+    }
 
 
     .aboutTitle {
@@ -123,9 +128,15 @@
         font-size: .8rem;
     }
 
+    .aboutTitleSmaller {
+        font-size: 1.5rem;
+
+    }
+
     .aboutImage {
         height: 155px;
         width: 155px;
+        margin: 0 auto;
     }
 
 }

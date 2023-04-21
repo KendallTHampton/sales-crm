@@ -9,18 +9,22 @@ import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {signUserOut} from '../../reduxSlices/User.jsx';
-const drawerWidth = 240;
+import {useNavigate} from 'react-router-dom';
+
 
 const Navbar = (
     {
+        drawerWidth,
         isSidebarOpen,
         setIsSidebarOpen,
+        isNonMobile
     }
 ) => {
 
     const [anchorEl, setAnchorEl] = useState(null);
-    const userObject = useSelector((state) => JSON.parse(state.user.currentUser))
+    const userObject = useSelector((state) => state.user.currentUser)
     const dispatch = useDispatch()
+    const navigate = useNavigate();
 
 
     return (
@@ -68,32 +72,35 @@ const Navbar = (
                             />
                         </IconButton>
                     }
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: ".5rem",
-                        }}
-                    >
-                        <input type="text" placeholder="Search"
-                            style={{
-                                width: "15rem",
-                                height: "2rem",
-                                borderRadius: "1rem",
-                                border: "none",
-                                outline: "none",
-                                paddingLeft: "1rem",
-                                fontSize: "1rem",
-                                backgroundColor: "#f2f2f2",
-                            }}
-                        />
-                        <SearchIcon
-                            edge="start"
+                    {isNonMobile &&
+                        <Box
                             sx={{
-                                cursor: "pointer",
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: ".5rem",
                             }}
-                        />
-                    </Box>
+                        >
+
+                            <input type="text" placeholder="Search"
+                                style={{
+                                    width: "15rem",
+                                    height: "2rem",
+                                    borderRadius: "1rem",
+                                    border: "none",
+                                    outline: "none",
+                                    paddingLeft: "1rem",
+                                    fontSize: "1rem",
+                                    backgroundColor: "#f2f2f2",
+                                }}
+                            />
+                            <SearchIcon
+                                edge="start"
+                                sx={{
+                                    cursor: "pointer",
+                                }}
+                            />
+                        </Box>
+                    }
                 </Box>
                 {/* USER PROFILE */}
                 <Box
@@ -109,13 +116,14 @@ const Navbar = (
                         aria-haspopup="true"
                         onClick={(e) => setAnchorEl(e.currentTarget)}
                         sx={{
-                            height: '40px',
-                            width: '40px',
+                            height: isNonMobile ? '40px' : '20px',
+                            width: isNonMobile ? '40px' : '20px',
                         }}
                     >
                         <Avatar
+
                         >
-                            {userObject?.firstName[0]}
+                            {userObject.firstName.split('')[0]}
                         </Avatar>
                     </IconButton>
                     <Menu
@@ -144,6 +152,7 @@ const Navbar = (
                                 setAnchorEl(null)
                                 localStorage.removeItem('user')
                                 dispatch(signUserOut())
+                                navigate('/')
                             }}
                         >
                             <Link to='/'>
@@ -158,13 +167,25 @@ const Navbar = (
                             flexDirection: 'column',
                             alignItems: 'center',
                             gap: "0",
+
                         }}>
-                        <p>{userObject?.firstName}</p>
-                        <p>{userObject?.lastName}</p>
+                        <p
+                            style={{
+                                fontSize: isNonMobile ? '1rem' : ".75rem"
+                            }}
+                        >
+                            {userObject.firstName}
+                        </p>
+                        <p
+                            style={{
+                                fontSize: isNonMobile ? '1rem' : ".75rem"
+                            }}
+                        >
+                            {userObject.lastName}</p>
                     </Box>
                 </Box>
             </Toolbar>
-        </AppBar>
+        </AppBar >
     )
 }
 

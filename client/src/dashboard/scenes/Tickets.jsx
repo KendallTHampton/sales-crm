@@ -44,15 +44,17 @@ const Tickets = () => {
                         <Box
                             component="span"
                             sx={{
-                                backgroundColor: row.original.priority === "New"
-                                    ? "green"
-                                    : row.original.priority === "Low"
-                                        ? "#0AB5E7"
-                                        : row.original.priority === "Medium"
-                                            ? "#e67d0e"
-                                            : row.original.priority === "High"
-                                                ? "#ed0202"
-                                                : "#9e02d6",
+                                backgroundColor: row.original.priority === "Closed"
+                                    ? "#949494"
+                                    : row.original.priority === "New"
+                                        ? "green"
+                                        : row.original.priority === "Low"
+                                            ? "#0AB5E7"
+                                            : row.original.priority === "Medium"
+                                                ? "#e67d0e"
+                                                : row.original.priority === "High"
+                                                    ? "#ed0202"
+                                                    : "#9e02d6",
 
                                 borderRadius: '10px',
                                 color: '#fff',
@@ -91,15 +93,16 @@ const Tickets = () => {
                 }
             },
             {
-                header: "Date",
-                accessorKey: "createdAt",
-            },
-            {
                 header: "Submitted By",
                 accessorFn: (row) =>
                     `${ row.submittedBy.firstName } ${ row.submittedBy.lastName }`,
 
             },
+            {
+                header: "Date",
+                accessorKey: "createdAt",
+            },
+
 
 
             {

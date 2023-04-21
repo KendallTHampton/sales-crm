@@ -3,7 +3,6 @@ import styles from './Services.module.css'
 import seoImage from '../../assets/seoImage.png'
 import analyticsImage from '../../assets/analyticsImage.png'
 import campaignImage from '../../assets/campaignImage.png'
-import {InView} from 'react-intersection-observer';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 
@@ -28,11 +27,10 @@ const serviceData = [
 
 const Services = () => {
 
-    const [expandedCard, setExpandedCard] = useState(null)
 
     return (
         <section className={styles.section}>
-            <InView as="section" onChange={(inView, entry) => console.log('Inview', inView)} className={styles.container} >
+            <div className={styles.container} >
                 <header className={styles.sectionHeader}>
                     <h2 className={styles.title}>
                         Services We Provide
@@ -57,7 +55,7 @@ const Services = () => {
                                 </p>
                             </div>
 
-                            <p>Click Me</p>
+
 
                         </div>
                     ))}
@@ -68,7 +66,7 @@ const Services = () => {
                     <h4 className={styles.learnMore}>Learn More About What We can Do For You!</h4>
                 </div>
 
-            </InView>
+            </div>
         </section>
     )
 }

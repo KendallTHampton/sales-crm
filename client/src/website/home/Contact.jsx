@@ -5,7 +5,7 @@ import styles from './Contact.module.css'
 import businessMan from "../../assets/businessman.png"
 
 // REDUX
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useSendTicketMutation} from '../../reduxSlices/Api';
 import {showModal} from '../../reduxSlices/Modal';
 
@@ -23,7 +23,9 @@ const Contact = () => {
 
     const categories = ['', 'Web Development', 'Analytics', 'Branding', 'SEO', 'Billing', 'Other']
 
-    const userIsLoggedIn = JSON.parse(localStorage.getItem('user')) || null
+    const userObject = useSelector((state) => state.user.currentUser)
+    const userIsLoggedIn = userObject ? userObject : false
+
     const dispatch = useDispatch()
 
 
@@ -137,9 +139,8 @@ const Contact = () => {
 
                     </form>
                 </div>
-            </div >
-
-        </section >
+            </div>
+        </section>
     )
 }
 
