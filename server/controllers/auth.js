@@ -1,6 +1,5 @@
 import User from '../models/userModel.js';
-import bcrypt from 'bcrypt';
-import admin, {auth} from '../firebaseAdmin.js';
+import {auth} from '../firebaseAdmin.js';
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto';
 
@@ -45,7 +44,6 @@ export const login = async (req, res) => {
         }
         const user = await User.findOne({email: email}).select('-password').lean();
 
-        console.log(user)
         if (!user) {
             res.status(400).send("Invalid Credentials");
         }

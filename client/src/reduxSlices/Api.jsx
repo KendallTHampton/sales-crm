@@ -89,7 +89,7 @@ export const api = createApi({
         }),
 
         getCampaignById: build.query({
-            query: (campaignId) => `/dashboard/campaign/${ campaignId }`,
+            query: (campaignId) => `/dashboard/campaignDetails/${ campaignId }`,
             providesTags: ["Campaigns"]
         }),
 
@@ -97,6 +97,11 @@ export const api = createApi({
         getAdmins: build.query({
             query: () => '/general/admins',
             providesTags: ["Admin"]
+        }),
+
+        getNonAdmins: build.query({
+            query: () => '/general/nonAdmins',
+            providesTags: ["NonAdmin"]
         }),
 
         getUser: build.query({
@@ -119,4 +124,4 @@ export const api = createApi({
 
 
 
-export const {useCreateUserMutation, useLoginUserMutation, useRefreshTokenMutation, useGetTicketsQuery, useSendTicketMutation, useViewTicketQuery, useUpdateTicketMutation, useDeleteTicketMutation, useGetTicketsSubmittedByUserQuery, useGetAdminsQuery, useGetUserQuery, useUpdateUserMutation, useGetContactsQuery, useGetCampaignsQuery, useGetCampaignByIdQuery} = api; 
+export const {useCreateUserMutation, useLoginUserMutation, useRefreshTokenMutation, useGetTicketsQuery, useSendTicketMutation, useViewTicketQuery, useUpdateTicketMutation, useDeleteTicketMutation, useGetTicketsSubmittedByUserQuery, useGetAdminsQuery, useGetNonAdminsQuery, useGetUserQuery, useUpdateUserMutation, useGetContactsQuery, useGetCampaignsQuery, useGetCampaignByIdQuery} = api; 

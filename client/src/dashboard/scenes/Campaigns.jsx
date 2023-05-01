@@ -1,62 +1,119 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import {useGetCampaignsQuery} from '../../reduxSlices/Api';
-import {Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Checkbox} from '@mui/material';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import {Box, Button, MenuItem, ListItemIcon} from '@mui/material';
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import {useNavigate} from 'react-router-dom';
+import MaterialReactTable from "material-react-table";
 
 const Campaigns = () => {
     const userObject = useSelector((state) => state.user.currentUser);
     const userId = userObject._id;
-    const getCampaigns = useGetCampaignsQuery(userId);
+    const {data: campaignData} = useGetCampaignsQuery(userId);
     const navigate = useNavigate();
 
-    console.log(getCampaigns.data);
+    const gridData = useMemo(() => {
+        if (!campaignData) return [];
+        return campaignData.map((campaign) => {
+            return {
+                ...campaign,
+                startDate: campaign.startDate,
+                endDate: campaign.endDate,
+            }
+        });
+    }, [campaignData])
+
+    const columns = useMemo(
+        () => [
+            {
+                header: "Target User",
+                accessorFn: (row) => {
+                    return `${ row.targetUser.firstName } ${ row.targetUser.lastName }`
+                }
+            },
+            {
+                header: 'Campaign Name',
+                accessorKey: 'name'
+            },
+            {
+                header: "Desc",
+                accessorKey: 'description'
+            },
+            {
+                header: "Start Date",
+                accessorFn: (row) => {
+                    return new Date(row.startDate).toLocaleDateString()
+                }
+            },
+            {
+                header: "End Date",
+                accessorFn: (row) => {
+                    return new Date(row.endDate).toLocaleDateString()
+                }
+            }
+            ,
+            {
+                header: "Status",
+                accessorFn: (row) => {
+                    return row.status
+                }
+            },
+        ],
+        []
+    );
+
+
 
     return (
         <Box padding="6rem 2rem">
             <h2 style={{marginBottom: '2rem'}}>Campaigns</h2>
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>
-                                <BorderColorIcon />
-                            </TableCell>
-                            <TableCell>FOR</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Type</TableCell>
-                            <TableCell>Start Date</TableCell>
-                            <TableCell>End Date</TableCell>
-                            <TableCell>Revenue</TableCell>
-                            <TableCell>Status</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {getCampaigns.data?.map((campaign) => (
-                            <TableRow key={campaign._id}>
-                                <TableCell
-                                    onClick={() => {
-                                        const campaignId = campaign._id;
-                                        navigate(`/dashboard/campaign/${ campaignId }`)
-                                    }}
-                                >
-                                    <Checkbox />
-                                </TableCell>
-                                <TableCell>{campaign.targetUser.firstName} {campaign.targetUser.lastName}</TableCell>
-                                <TableCell>{campaign.name}</TableCell>
-                                <TableCell>{campaign.description}</TableCell>
-                                <TableCell>{campaign.type}</TableCell>
-                                <TableCell>{new Date(campaign.startDate).toLocaleDateString()}</TableCell>
-                                <TableCell>{new Date(campaign.endDate).toLocaleDateString()}</TableCell>
-                                <TableCell>{campaign.revenue}</TableCell>
-                                <TableCell>{campaign.status}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+
+            <MaterialReactTable
+                data={gridData}
+                columns={columns}
+                enableColumnOrdering
+                enableGrouping
+                enableRowActions
+                initialState={{
+                    showColumnFilters: false,
+                    density: 'compact'
+                }}
+                positionToolbarAlertBanner="bottom"
+                renderRowActionMenuItems={({closeMenu, row}) => [
+                    <MenuItem
+                        key={1}
+                        onClick={() => {
+                            closeMenu();
+                            const ticketId = row.original._id
+                            navigate(`/dashboard/campaign/${ ticketId }`)
+                        }}
+                        sx={{m: 0}}
+                    >
+
+                        <ListItemIcon>
+                            <AccountCircle />
+                        </ListItemIcon>
+                        Campaign Details
+                    </MenuItem>
+                    ,
+
+                    <MenuItem
+                        key={0}
+                        onClick={() => {
+                            closeMenu();
+                            const userId = row.original.targetUser._id
+                            navigate(`/dashboard/user/${ userId }`)
+                        }}
+                        sx={{m: 0}}
+                    >
+                        <ListItemIcon>
+                            <AccountCircle />
+                        </ListItemIcon>
+                        View Profile
+                    </MenuItem>,
+
+                ]}
+            />
 
 
             <Button type="button"

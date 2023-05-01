@@ -16,6 +16,7 @@ const CommentsSection = ({comments}) => {
         if (newComment.trim()) {
             // Add your logic to handle the addition of a new comment here
             console.log('New comment:', newComment);
+            alert('For this demo, new comments are not saved. Check the console to see the new comment.')
             setNewComment('');
         }
     };
@@ -24,7 +25,7 @@ const CommentsSection = ({comments}) => {
         <Box mt={4}>
             <Typography variant="h6">Comments</Typography>
             {comments.map((commentObj, index) => (
-                <Box>
+                <Box key={index}>
                     <Typography marginTop='1rem' sx={{
                         color: '#b1b1b1'
                     }}>

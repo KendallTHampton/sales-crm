@@ -78,23 +78,7 @@ const Contacts = () => {
                 }}
                 positionToolbarAlertBanner="bottom"
                 renderRowActionMenuItems={({closeMenu, row}) => [
-                    <MenuItem
-                        key={1}
-                        onClick={() => {
-                            closeMenu();
-                            console.log(row.original.usersCampaigns)
-                            const campaignId = row.original.usersCampaigns._id
-                            navigate(`/dashboard/campaigns/${ campaignId }`)
-                        }}
-                        sx={{m: 0}}
-                    >
 
-                        <ListItemIcon>
-                            <AccountCircle />
-                        </ListItemIcon>
-                        View Campaigns
-                    </MenuItem>
-                    ,
 
                     <MenuItem
                         key={0}

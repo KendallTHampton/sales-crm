@@ -133,9 +133,7 @@ export const getCampaigns = async (req, res) => {
             populate: {
                 path: 'targetUser',
                 select: 'firstName lastName email'
-            },
-
-
+            }
         })
         res.status(200).json(users.createdCampaigns)
     }
@@ -159,4 +157,28 @@ export const getCampaignById = async (req, res) => {
     catch (error) {
         res.status(404).json({message: error.message})
     }
+}
+
+export const viewUserCampaigns = async (req, res) => {
+    try {
+        const id = req.params.id
+        const userCampaigns = await Campaign.find({targetUser: id})
+
+        res.status(200).json(userCampaigns)
+    }
+    catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
+export const editCampaign = async (req, res) => {
+    const campaignId = req.params.id
+    const campaignObject = req.body
+    try {
+        const campaign = await Campaign.findByIdAndUpdate(campaignId, campaignObject, {new: true})
+    }
+    catch (error) {
+        res.status(400).json({message: error.message})
+    }
+
 }
