@@ -46,7 +46,7 @@ function Navbar() {
                 </Link>
             }
             {userIsLoggedIn && (
-                <>
+                <div className={styles.accountIconWrapper}>
                     <IconButton
                         className={styles.account}
                         size='large'
@@ -125,7 +125,7 @@ function Navbar() {
                             </Link>
                         </MenuItem>
                     </Menu>
-                </>
+                </div>
             )}
         </>
     );
