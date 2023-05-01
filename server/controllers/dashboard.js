@@ -135,12 +135,17 @@ export const getCampaigns = async (req, res) => {
                 select: 'firstName lastName email'
             }
         })
-        res.status(200).json(users.createdCampaigns)
+
+        const sortedCampaigns = users.createdCampaigns.sort((a, b) => {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+
+        res.status(200).json(sortedCampaigns);
     }
     catch (error) {
-        res.status(404).json({message: error.message})
+        res.status(404).json({message: error.message});
     }
-}
+};
 
 export const getCampaignById = async (req, res) => {
     try {
@@ -182,3 +187,22 @@ export const editCampaign = async (req, res) => {
     }
 
 }
+
+export const createCampaign = async (req, res) => {
+    const campaignObject = req.body
+    const createdById = req.body.createdBy
+    try {
+        const newCampaign = await Campaign.create(campaignObject)
+        const user = await User.findById(createdById)
+        user.createdCampaigns.push(newCampaign._id)
+        const targetUser = await User.findById(newCampaign.targetUser)
+        targetUser.usersCampaigns.push(newCampaign._id)
+        await user.save()
+        await targetUser.save()
+        res.status(200).json({message: 'Campaign created'})
+    }
+    catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+

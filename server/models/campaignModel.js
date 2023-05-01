@@ -11,7 +11,7 @@ const campaignSchema = new mongoose.Schema({
     targetUser: {type: mongoose.Schema.Types.ObjectId, ref: 'users'}, // user who is the target
     comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'comments', default: []}], // comments
     status: {type: String, default: 'New'},
-});
+}, {timestamps: true});
 
 const Campaign = mongoose.model('campaigns', campaignSchema);
 

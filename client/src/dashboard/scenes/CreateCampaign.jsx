@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import {useMediaQuery} from '@mui/material';
 import {useGetNonAdminsQuery} from '../../reduxSlices/Api';
+import {useCreateCampaignMutation} from '../../reduxSlices/Api';
 
 
 const CreateCampaign = () => {
@@ -11,6 +12,7 @@ const CreateCampaign = () => {
     const userObject = useSelector((state) => state.user.currentUser)
     const {data: nonAdmins} = useGetNonAdminsQuery()
     const isNonMobile = useMediaQuery("(min-width: 600px)");
+    const isMediumScreen = useMediaQuery("(min-width: 960px)");
     const categories = ['Web Development', 'Analytics', 'Branding', 'SEO', 'Social Media']
     const statuses = ['New', 'In Progress', 'On Hold', 'Cancelled', 'Completed']
 
@@ -35,14 +37,36 @@ const CreateCampaign = () => {
     }
 
     const [newComment, setNewComment] = useState('');
+    const [createACampaign] = useCreateCampaignMutation()
+    const [startDateChange, setStartDateChange] = useState('');
+    const [endDateChange, setEndDateChange] = useState('');
     const [category, setCategory] = useState('');
     const [campaignStatus, setCampaignStatus] = useState('New');
     const navigate = useNavigate()
 
-    const handleSUbmit = (e) => {
+    const handleSUbmit = async (e) => {
         e.preventDefault()
-        alert('For demo purposes, this feature cannot create a campaign. Please contact the developer for more information.')
-        navigate('/dashboard/campaigns')
+        if (new Date(startDateChange) > new Date(endDateChange)) {
+            alert('Start Date Cannot Be After End Date')
+            return;
+        } else {
+            try {
+                const campaignData = {
+                    name: e.target[0].value,
+                    targetUser: targetUser._id,
+                    type: category,
+                    status: campaignStatus,
+                    startDate: new Date(startDateChange).toISOString(),
+                    endDate: new Date(endDateChange).toISOString(),
+                    description: newComment,
+                    createdBy: userObject._id,
+                }
+                await createACampaign(campaignData)
+                navigate('/dashboard/campaigns')
+            } catch (error) {
+                console.log(error)
+            }
+        }
     }
 
     return (
@@ -59,20 +83,19 @@ const CreateCampaign = () => {
                         />
                     </Grid>
 
-                    <Grid item xs={12} md={2}>
+                    <Grid item xs={12} md={4}>
                         <Label label="Target User" />
                         <Autocomplete
                             required
                             id="combo-box-demo"
                             options={nonAdmins || []}
                             getOptionLabel={(option) => option.firstName + ' ' + option.lastName}
-
                             onChange={(e, value) => setTargetUser(value)}
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </Grid>
 
-                    <Grid item xs={12} md={2}>
+                    <Grid item xs={12} md={4}>
                         <Label label="Type" />
                         <Select
                             value={category || ''}
@@ -96,7 +119,7 @@ const CreateCampaign = () => {
 
 
 
-                    <Grid item xs={12} md={2}>
+                    <Grid item xs={12} md={4}>
                         <Label label="Status" />
                         <Select
                             required
@@ -125,6 +148,7 @@ const CreateCampaign = () => {
                         <Label label="Start Date" />
                         <input
                             required
+                            onChange={(e) => setStartDateChange(e.target.value)}
                             style={{
                                 padding: '.75rem',
                                 border: '1px solid #b7b7b7',
@@ -139,6 +163,7 @@ const CreateCampaign = () => {
                         <Label label="End Date" />
                         <input
                             required
+                            onChange={(e) => setEndDateChange(e.target.value)}
                             style={{
                                 padding: '.75rem',
                                 border: '1px solid #b7b7b7',
@@ -155,7 +180,11 @@ const CreateCampaign = () => {
                             required
                             fullWidth
                             multiline
-                            rows={isNonMobile ? 3 : 1}
+                            rows={
+                                isMediumScreen ? 3
+                                    : isNonMobile ? 2
+                                        : 1
+                            }
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
 
@@ -164,10 +193,6 @@ const CreateCampaign = () => {
                 </Grid>
                 <Button type="submit"
                     variant="contained"
-                    onClick={() => {
-                        console.log('clicked')
-
-                    }}
                     sx={{
                         marginTop: '2rem',
                         backgroundColor: "black",

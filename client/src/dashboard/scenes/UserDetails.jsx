@@ -244,11 +244,13 @@ const User = () => {
                                                     fontWeight: '700',
                                                     color: 'blue',
                                                     textDecoration: 'underline',
+                                                    cursor: 'pointer',
                                                 }}
+                                                onClick={() => navigate(`/dashboard/campaign/${ campaign._id }`)}
                                             >
                                                 {campaign.name}
                                             </Typography>
-                                            {index < userData.usersCampaigns.length - 1 && ', '}
+                                            {index < userData.usersCampaigns.length - 1 && ''}
                                         </Box>
                                     ))
                                 ) : (

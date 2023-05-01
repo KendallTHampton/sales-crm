@@ -1,5 +1,5 @@
 import express from "express";
-import {getTickets, getTicketById, updateTicket, deleteTicket, getTicketsSubmittedByUser, getContacts, getCampaigns, getCampaignById, viewUserCampaigns, editCampaign} from "../controllers/dashboard.js";
+import {getTickets, getTicketById, updateTicket, deleteTicket, getTicketsSubmittedByUser, getContacts, getCampaigns, getCampaignById, viewUserCampaigns, editCampaign, createCampaign} from "../controllers/dashboard.js";
 
 const router = express.Router();
 
@@ -16,6 +16,7 @@ router.get('/campaigns/:id', getCampaigns)
 router.get('/campaignDetails/:id', getCampaignById)
 router.get('/userCampaigns/:id', viewUserCampaigns)
 router.put('/campaign/edit/:id', editCampaign)
+router.post('/campaign/create', createCampaign)
 
 
 

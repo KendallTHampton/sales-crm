@@ -93,6 +93,14 @@ export const api = createApi({
             providesTags: ["Campaigns"]
         }),
 
+        createCampaign: build.mutation({
+            query: (body) => ({
+                url: `/dashboard/campaign/create`,
+                method: 'POST',
+                body: body
+            }),
+            invalidatesTags: ["Campaigns"]
+        }),
 
         getAdmins: build.query({
             query: () => '/general/admins',
@@ -124,4 +132,4 @@ export const api = createApi({
 
 
 
-export const {useCreateUserMutation, useLoginUserMutation, useRefreshTokenMutation, useGetTicketsQuery, useSendTicketMutation, useViewTicketQuery, useUpdateTicketMutation, useDeleteTicketMutation, useGetTicketsSubmittedByUserQuery, useGetAdminsQuery, useGetNonAdminsQuery, useGetUserQuery, useUpdateUserMutation, useGetContactsQuery, useGetCampaignsQuery, useGetCampaignByIdQuery} = api; 
+export const {useCreateUserMutation, useLoginUserMutation, useRefreshTokenMutation, useGetTicketsQuery, useSendTicketMutation, useViewTicketQuery, useUpdateTicketMutation, useDeleteTicketMutation, useGetTicketsSubmittedByUserQuery, useGetAdminsQuery, useGetNonAdminsQuery, useGetUserQuery, useUpdateUserMutation, useGetContactsQuery, useGetCampaignsQuery, useGetCampaignByIdQuery, useCreateCampaignMutation} = api; 
