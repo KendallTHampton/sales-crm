@@ -89,12 +89,19 @@ function Login() {
                     display: 'flex',
                     flexDirection: 'column',
                     position: 'absolute',
-                    top: '2%',
+                    top: '70%',
                     left: '50%',
+                    padding: '1rem',
+                    borderRadius: '5px',
                     transform: 'translate(-50%, 0%)',
                     backgroundColor: 'white',
                 }}>
-                <h4>Admin Credentials</h4>
+                <h4
+                    style={{marginBottom: '0.5rem'}}
+                >
+                    Admin Credentials
+                </h4>
+
                 <p style={{color: 'gray'}}>Email: <span style={{color: 'black'}}>Admin@gmail.com</span> </p>
                 <p style={{color: 'gray'}}>Password: <span style={{color: 'black'}}>Admin1</span></p>
             </div>
