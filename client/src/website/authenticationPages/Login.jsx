@@ -89,7 +89,7 @@ function Login() {
                     display: 'flex',
                     flexDirection: 'column',
                     position: 'absolute',
-                    top: '70%',
+                    top: '80%',
                     left: '50%',
                     padding: '1rem',
                     borderRadius: '5px',
