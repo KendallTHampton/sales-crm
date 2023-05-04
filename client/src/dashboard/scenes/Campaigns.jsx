@@ -37,7 +37,11 @@ const Campaigns = () => {
             },
             {
                 header: "Desc",
-                accessorKey: 'description'
+                accessorFn: (row) => row.description.substring(0, 25) + '...'
+            },
+            {
+                header: "Type",
+                accessorKey: 'type'
             },
             {
                 header: "Start Date",
@@ -84,8 +88,8 @@ const Campaigns = () => {
                         key={1}
                         onClick={() => {
                             closeMenu();
-                            const ticketId = row.original._id
-                            navigate(`/dashboard/campaign/${ ticketId }`)
+                            const campaignId = row.original._id
+                            navigate(`/dashboard/campaign/${ campaignId }`)
                         }}
                         sx={{m: 0}}
                     >

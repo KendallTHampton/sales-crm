@@ -102,8 +102,30 @@ export const api = createApi({
             invalidatesTags: ["Campaigns"]
         }),
 
+        updateCampaign: build.mutation({
+            query: (body) => ({
+                url: `/dashboard/campaign/update/${ body.campaignId }`,
+                method: 'PUT',
+                body: body
+            }),
+            invalidatesTags: ["Campaigns"]
+        }),
+
+        deleteCampaign: build.mutation({
+            query: (campaignId) => ({
+                url: `/dashboard/campaign/delete/${ campaignId }`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ["Campaigns"]
+        }),
+
         getAdmins: build.query({
             query: () => '/general/admins',
+            providesTags: ["Admins"]
+        }),
+
+        getAdminById: build.query({
+            query: adminId => `/general/admin/${ adminId }`,
             providesTags: ["Admin"]
         }),
 
@@ -111,6 +133,8 @@ export const api = createApi({
             query: () => '/general/nonAdmins',
             providesTags: ["NonAdmin"]
         }),
+
+
 
         getUser: build.query({
             query: (userId) => `/general/users/${ userId }`,
@@ -132,4 +156,4 @@ export const api = createApi({
 
 
 
-export const {useCreateUserMutation, useLoginUserMutation, useRefreshTokenMutation, useGetTicketsQuery, useSendTicketMutation, useViewTicketQuery, useUpdateTicketMutation, useDeleteTicketMutation, useGetTicketsSubmittedByUserQuery, useGetAdminsQuery, useGetNonAdminsQuery, useGetUserQuery, useUpdateUserMutation, useGetContactsQuery, useGetCampaignsQuery, useGetCampaignByIdQuery, useCreateCampaignMutation} = api; 
+export const {useCreateUserMutation, useLoginUserMutation, useRefreshTokenMutation, useGetTicketsQuery, useSendTicketMutation, useViewTicketQuery, useUpdateTicketMutation, useDeleteTicketMutation, useGetTicketsSubmittedByUserQuery, useGetAdminsQuery, useGetAdminByIdQuery, useGetNonAdminsQuery, useGetUserQuery, useUpdateUserMutation, useGetContactsQuery, useGetCampaignsQuery, useGetCampaignByIdQuery, useCreateCampaignMutation, useUpdateCampaignMutation, useDeleteCampaignMutation} = api; 

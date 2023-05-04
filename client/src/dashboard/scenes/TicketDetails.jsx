@@ -35,7 +35,6 @@ const TicketDetails = () => {
         }
     }, [ticket]);
 
-    console.log(ticketData)
 
     const categories = ['Web Development', 'Analytics', 'Branding', 'SEO', 'Billing', 'Other']
     const priorities = ['Closed', 'New', 'Low', 'Medium', 'High', 'Urgent']

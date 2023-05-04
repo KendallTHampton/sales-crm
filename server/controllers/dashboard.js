@@ -129,14 +129,14 @@ export const getCampaigns = async (req, res) => {
     try {
         const id = req.params.id;
         const users = await User.findById(id).populate({
-            path: 'createdCampaigns',
+            path: 'ownedCampaigns',
             populate: {
                 path: 'targetUser',
                 select: 'firstName lastName email'
             }
         })
 
-        const sortedCampaigns = users.createdCampaigns.sort((a, b) => {
+        const sortedCampaigns = users.ownedCampaigns.sort((a, b) => {
             return new Date(b.createdAt) - new Date(a.createdAt);
         });
 
@@ -156,7 +156,7 @@ export const getCampaignById = async (req, res) => {
                 path: 'user',
                 select: 'firstName lastName email'
             }
-        })
+        }).populate('ownedBy', 'firstName lastName email')
         res.status(200).json(campaign)
     }
     catch (error) {
@@ -176,25 +176,13 @@ export const viewUserCampaigns = async (req, res) => {
     }
 }
 
-export const editCampaign = async (req, res) => {
-    const campaignId = req.params.id
-    const campaignObject = req.body
-    try {
-        const campaign = await Campaign.findByIdAndUpdate(campaignId, campaignObject, {new: true})
-    }
-    catch (error) {
-        res.status(400).json({message: error.message})
-    }
-
-}
-
 export const createCampaign = async (req, res) => {
     const campaignObject = req.body
-    const createdById = req.body.createdBy
+    const ownedById = req.body.ownedBy
     try {
         const newCampaign = await Campaign.create(campaignObject)
-        const user = await User.findById(createdById)
-        user.createdCampaigns.push(newCampaign._id)
+        const user = await User.findById(ownedById)
+        user.ownedCampaigns.push(newCampaign._id)
         const targetUser = await User.findById(newCampaign.targetUser)
         targetUser.usersCampaigns.push(newCampaign._id)
         await user.save()
@@ -206,3 +194,33 @@ export const createCampaign = async (req, res) => {
     }
 }
 
+
+export const deleteCampaign = async (req, res) => {
+    const campaignId = req.params.id
+    try {
+        const campaign = await Campaign.findById(campaignId)
+        const ownedBy = campaign.ownedBy
+        const targetUser = campaign.targetUser
+
+        const userWhoCreatedCampaign = await User.updateOne({_id: ownedBy}, {$pull: {ownedCampaigns: campaignId}})
+        const targetUserCampaign = await User.updateOne({_id: targetUser}, {$pull: {usersCampaigns: campaignId}})
+
+        await campaign.deleteOne({_id: campaignId})
+        res.status(200).json({message: 'Campaign deleted'})
+    }
+    catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
+export const updateCampaign = async (req, res) => {
+    const campaignData = req.body
+    const campaignId = req.params.id
+    try {
+        const campaign = await Campaign.findByIdAndUpdate(campaignId, campaignData, {new: true})
+        res.status(200).json(campaign)
+    }
+    catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}

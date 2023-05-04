@@ -27,6 +27,8 @@ import Contacts from './dashboard/scenes/Contacts';
 import Campaigns from './dashboard/scenes/Campaigns';
 import CampaignDetails from './dashboard/scenes/CampaignDetails';
 import CreateCampaign from './dashboard/scenes/CreateCampaign';
+import Admins from './dashboard/scenes/Admins';
+import AdminDetails from './dashboard/scenes/AdminDetails';
 
 
 function App() {
@@ -116,20 +118,20 @@ function App() {
               </ProtectedRoute>
             }
           >
+            {/* Tickets */}
             <Route index element={<Navigate to="tickets" />} />
             <Route path="tickets" element={<Tickets />} />
             <Route path="tickets/:ticketId" element={<TicketDetails />} />
-            <Route
-              path="tickets/:ticketId/edit"
-              element={<TicketDetails />}
-            />
+            <Route path="tickets/:ticketId/edit" element={<TicketDetails />} />
             <Route path="user/:userId" element={<User />} />
             <Route path="contacts" element={<Contacts />} />
+            {/* Campaigns */}
             <Route path="campaigns" element={<Campaigns />} />
             <Route path="campaign/:campaignId" element={<CampaignDetails />} />
-
             <Route path='campaigns/create' element={<CreateCampaign />} />
-            <Route path="settings" element={<div>Settings</div>} />
+            {/* Admins */}
+            <Route path="admins" element={<Admins />} />
+            <Route path="admin/:adminId" element={<AdminDetails />} />
           </Route>
         </Routes>
       )}

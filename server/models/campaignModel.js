@@ -7,7 +7,7 @@ const campaignSchema = new mongoose.Schema({
     startDate: Date,
     endDate: Date,
     revenue: Number,
-    createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'users'}, // user who created the campaign
+    ownedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'users'}, // user who created the campaign
     targetUser: {type: mongoose.Schema.Types.ObjectId, ref: 'users'}, // user who is the target
     comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'comments', default: []}], // comments
     status: {type: String, default: 'New'},

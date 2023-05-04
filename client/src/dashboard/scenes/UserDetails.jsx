@@ -135,7 +135,7 @@ const User = () => {
         }
     }, [data])
 
-    console.log(userData)
+
 
     const Label = ({label}) => {
         return (
@@ -215,7 +215,7 @@ const User = () => {
                                     }}
 
                                     options={adminUsers || []}
-                                    getOptionSelected={(option, value) => option._id === value}
+
 
                                     getOptionLabel={(option) => option ? `${ option.firstName } ${ option.lastName }` : ""}
                                     renderInput={(params) => <TextField {...params} />}

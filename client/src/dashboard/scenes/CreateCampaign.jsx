@@ -59,7 +59,7 @@ const CreateCampaign = () => {
                     startDate: new Date(startDateChange).toISOString(),
                     endDate: new Date(endDateChange).toISOString(),
                     description: newComment,
-                    createdBy: userObject._id,
+                    ownedBy: userObject._id,
                 }
                 await createACampaign(campaignData)
                 navigate('/dashboard/campaigns')

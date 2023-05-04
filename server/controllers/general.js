@@ -17,7 +17,7 @@ export const getUserById = async (req, res) => {
             .populate('managedBy')
             .populate('submittedTickets')
             .populate('managedUsers')
-            .populate('createdCampaigns')
+            .populate('ownedCampaigns')
             .populate('usersCampaigns')
             .exec();
 
@@ -30,13 +30,43 @@ export const getUserById = async (req, res) => {
 
 export const getAdmins = async (req, res) => {
     try {
-        const admins = await User.find({isAdmin: true});
+        const admins = await User.find({isAdmin: true}).select('-password');
         res.status(200).json(admins)
     }
     catch (error) {
         res.status(404).json({message: error.message})
     }
 }
+
+export const getAdminById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const user = await User.find({_id: id, isAdmin: true})
+            .populate('managedUsers', 'firstName lastName email usersCampaigns')
+            .populate({
+                path: 'ticketsOwned',
+                select: "category message status priority createdAt",
+                populate: {
+                    path: 'submittedBy',
+                    select: 'firstName lastName email'
+                },
+            })
+            .populate({
+                path: 'ownedCampaigns',
+                populate: {
+                    path: 'targetUser',
+                    select: 'firstName lastName email'
+                }
+            }
+            )
+            .select("-password").sort({createdAt: -1})
+        res.status(200).json(...user)
+    }
+    catch (error) {
+        res.status(404).json({message: error.message})
+    }
+}
+
 
 export const updateUser = async (req, res) => {
     try {
@@ -71,7 +101,7 @@ export const updateUser = async (req, res) => {
             .populate('managedBy')
             .populate('submittedTickets')
             .populate('managedUsers')
-            .populate('createdCampaigns')
+            .populate('ownedCampaigns')
             .populate('usersCampaigns')
             .exec();
 

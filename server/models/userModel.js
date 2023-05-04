@@ -10,7 +10,7 @@ export const UserSchema = new mongoose.Schema({
     ticketsOwned: [{type: mongoose.Schema.Types.ObjectId, ref: 'tickets'}],
     managedBy: [{type: mongoose.Schema.Types.ObjectId, ref: 'users', default: []}],
     managedUsers: [{type: mongoose.Schema.Types.ObjectId, ref: 'users', default: []}],
-    createdCampaigns: [{type: mongoose.Schema.Types.ObjectId, ref: 'campaigns', default: []}],
+    ownedCampaigns: [{type: mongoose.Schema.Types.ObjectId, ref: 'campaigns', default: []}],
     usersCampaigns: [{type: mongoose.Schema.Types.ObjectId, ref: 'campaigns', default: null}]
 },
     {timestamps: true}

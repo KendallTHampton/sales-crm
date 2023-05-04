@@ -1,5 +1,5 @@
 import express from "express";
-import {getUsers, getUserById, getAdmins, updateUser, getNonAdmins} from "../controllers/general.js";
+import {getUsers, getUserById, getAdmins, updateUser, getNonAdmins, getAdminById} from "../controllers/general.js";
 
 
 
@@ -12,6 +12,7 @@ router.get('/users/:id', getUserById)
 router.put('/users/edit/:id', updateUser)
 router.get('/admins', getAdmins)
 router.get('/nonAdmins', getNonAdmins)
+router.get('/admin/:id', getAdminById)
 
 
 export default router;

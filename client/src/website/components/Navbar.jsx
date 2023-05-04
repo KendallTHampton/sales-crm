@@ -93,7 +93,7 @@ function Navbar() {
                         onClose={() => setAnchorEl(null)}
                     >
                         <MenuItem onClick={() => setAnchorEl(null)}>
-                            <Link to='/profile'>Profile</Link>
+                            <Link to='/' >Profile</Link>
                         </MenuItem>
                         {userIsAdmin && (
                             <MenuItem onClick={() => setAnchorEl(null)}>
@@ -110,7 +110,6 @@ function Navbar() {
                                 setAnchorEl(null);
                                 localStorage.removeItem('user');
                                 dispatch(signUserOut());
-
                             }
 
                             }>

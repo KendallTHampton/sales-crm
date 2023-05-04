@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {useGetCampaignByIdQuery} from '../../reduxSlices/Api';
+import {useGetCampaignByIdQuery, useDeleteCampaignMutation, useUpdateCampaignMutation} from '../../reduxSlices/Api';
 import {Box, Typography, Grid, Paper, Input, Select, MenuItem, Button, TextField} from '@mui/material';
 import CommentsSection from './Comments';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -14,6 +14,8 @@ const CampaignDetails = () => {
     const [campaignData, setCampaignData] = useState(null);
     const [editStartDate, setEditStartDate] = useState(false);
     const [editEndDate, setEditEndDate] = useState(false);
+    const [deleteCampaign] = useDeleteCampaignMutation();
+    const [updateCampaign] = useUpdateCampaignMutation();
 
     useEffect(() => {
         if (campaign) {
@@ -23,6 +25,15 @@ const CampaignDetails = () => {
 
 
     const statuses = ['New', 'Open', 'In Progress', 'Completed']
+    const types = ['SEO', 'Web Development', 'Analytics', 'Branding', 'Social Media']
+
+    const updateHandler = () => {
+
+        updateCampaign({campaignId: campaign._id, ...campaignData}).unwrap()
+        navigate('/dashboard/campaigns')
+
+    }
+
 
 
     const Label = ({label}) => {
@@ -50,6 +61,7 @@ const CampaignDetails = () => {
         return `${ year }-${ month }-${ day }`;
     };
 
+
     return (
         <Box padding="6rem 2rem">
             <h2 style={{color: 'rgba(60, 60, 68, 1)', marginBottom: '2rem'}}>
@@ -57,6 +69,22 @@ const CampaignDetails = () => {
             </h2>
             {campaignData && (
                 <Grid container spacing={4} >
+                    <Grid item xs={12} md={12}>
+                        <Label label="Owned By" />
+                        <Typography
+                            fontWeight='bold'
+                            onClick={() => navigate(`/dashboard/admin/${ campaignData.ownedBy._id }`)}
+                            sx={{
+                                cursor: 'pointer',
+                                color: '#3C3C44',
+                                '&:hover': {
+                                    color: '#3C3C44',
+                                    textDecoration: 'underline',
+                                },
+                            }}
+                        >
+                            {campaignData.ownedBy.firstName} {campaignData.ownedBy.lastName}</Typography>
+                    </Grid>
                     <Grid item xs={12} md={6}>
                         <Label label="Name" />
                         <Typography>{campaignData.name}</Typography>
@@ -185,6 +213,31 @@ const CampaignDetails = () => {
                             })}
                         </Select>
                     </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Label label="Type" />
+                        <Select
+                            value={campaignData.type}
+                            onChange={(e) =>
+                                setCampaignData({...campaignData, type: e.target.value})
+                            }
+                            sx={{
+                                width: "80%",
+                            }}
+                        >
+                            <MenuItem value={campaignData.type}>
+                                {campaignData.type}
+                            </MenuItem>
+                            {types.map((type) => {
+                                if (type !== campaignData.type) {
+                                    return (
+                                        <MenuItem value={type} key={type}>
+                                            {type}
+                                        </MenuItem>
+                                    );
+                                }
+                            })}
+                        </Select>
+                    </Grid>
                     <Grid item xs={12}>
                         <Label label="Description" />
                         <Paper
@@ -201,26 +254,43 @@ const CampaignDetails = () => {
                 </Grid>
             )
             }
+            <Box display='flex' justifyContent="space-between">
+                <Button variant="contained"
+                    sx={{
+                        marginTop: '2rem',
 
-            <Button variant="contained"
-                sx={{
-                    marginTop: '2rem',
+                        '&:hover': {
+                            backgroundColor: "black"
+                        }
+                    }}
+                    onClick={(e) => {
+                        updateHandler()
+                        // navigate('/dashboard/campaigns')
+                    }}
 
-                    '&:hover': {
-                        backgroundColor: "black"
-                    }
-                }}
-                onClick={(e) => {
-                    alert('For this demo, campaign updates are not saved.')
-                    navigate('/dashboard/campaigns')
-                }}
+                >
+                    Save Campaign
+                </Button>
+                {/* DELETE CAMPAIGN */}
+                <Button variant="contained"
+                    sx={{
+                        marginTop: '2rem',
+                        backgroundColor: 'red',
 
-            >
-                Save Campaign
-            </Button>
+                        '&:hover': {
+                            backgroundColor: "black"
+                        }
+                    }}
+                    onClick={(e) => {
+                        deleteCampaign(campaignData._id)
+                        navigate('/dashboard/campaigns')
+                    }}
+                >
+                    Delete Campaign
+                </Button>
+            </Box>
 
-
-        </Box >
+        </Box>
     );
 };
 
