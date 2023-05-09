@@ -24,7 +24,7 @@ const CampaignDetails = () => {
     }, [campaign]);
 
 
-    const statuses = ['New', 'Open', 'In Progress', 'On Hold', 'Completed']
+    const statuses = ['New', 'In Progress', 'On Hold', 'Completed', 'Cancelled']
     const types = ['SEO', 'Web Development', 'Analytics', 'Branding', 'Social Media']
 
     const updateHandler = () => {
