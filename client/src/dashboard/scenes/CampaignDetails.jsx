@@ -249,7 +249,7 @@ const CampaignDetails = () => {
                         >
                             <Typography>{campaignData.description}</Typography>
                         </Paper>
-                        <CommentsSection comments={campaignData.comments} />
+                        <CommentsSection data={campaignData} />
                     </Grid>
                 </Grid>
             )

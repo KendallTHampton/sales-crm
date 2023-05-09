@@ -1,6 +1,7 @@
 import Ticket from "../models/ticketModel.js";
 import User from "../models/userModel.js";
 import Campaign from "../models/campaignModel.js";
+import Comment from "../models/commentModel.js";
 
 // TICKETS
 export const getTickets = async (req, res) => {
@@ -199,13 +200,17 @@ export const deleteCampaign = async (req, res) => {
     const campaignId = req.params.id
     try {
         const campaign = await Campaign.findById(campaignId)
+
         const ownedBy = campaign.ownedBy
         const targetUser = campaign.targetUser
 
         const userWhoCreatedCampaign = await User.updateOne({_id: ownedBy}, {$pull: {ownedCampaigns: campaignId}})
         const targetUserCampaign = await User.updateOne({_id: targetUser}, {$pull: {usersCampaigns: campaignId}})
 
-        await campaign.deleteOne({_id: campaignId})
+
+        await Comment.deleteMany({campaign: campaignId});
+        await Campaign.deleteOne({_id: campaignId})
+
         res.status(200).json({message: 'Campaign deleted'})
     }
     catch (error) {
@@ -223,4 +228,48 @@ export const updateCampaign = async (req, res) => {
     catch (error) {
         res.status(400).json({message: error.message})
     }
+}
+
+
+export const createComment = async (req, res) => {
+    const {campaign, user, comment} = req.body
+
+    try {
+        const targetCampaign = await Campaign.findById(campaign) // find the campaign
+        if (!targetCampaign) {
+            return res.status(404).json({message: 'Campaign not found'})
+        }
+
+        const newComment = await Comment.create({user, comment, campaign: targetCampaign._id}) // create a new comment    
+        targetCampaign.comments.push(newComment._id) // push the new comment to the campaign
+        await targetCampaign.save() // save the campaign
+
+        res.status(200).json({message: 'Comment created'})
+    }
+    catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
+export const deleteComment = async (req, res) => {
+    const {commentId} = req.body
+
+    try {
+        const campaign = await Campaign.findOne({comments: commentId})
+        if (!campaign) {
+            return res.status(404).json({message: 'Campaign not found'})
+        }
+        const comment = await Comment.findByIdAndDelete(commentId)
+
+        campaign.comments.pull(commentId)
+
+        await campaign.save()
+
+        res.status(200).json({message: 'Comment deleted'})
+
+    }
+    catch (error) {
+        res.status(400).json({message: error.message})
+    }
+
 }

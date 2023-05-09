@@ -119,6 +119,24 @@ export const api = createApi({
             invalidatesTags: ["Campaigns"]
         }),
 
+        createComment: build.mutation({
+            query: (body) => ({
+                url: `/dashboard/campaign/createcomment`,
+                method: 'POST',
+                body
+            }),
+            invalidatesTags: ["Campaigns"]
+        }),
+
+        deleteComment: build.mutation({
+            query: (body) => ({
+                url: `/dashboard/campaign/deletecomment`,
+                method: 'DELETE',
+                body
+            }),
+            invalidatesTags: ["Campaigns"]
+        }),
+
         getAdmins: build.query({
             query: () => '/general/admins',
             providesTags: ["Admins"]
@@ -156,4 +174,4 @@ export const api = createApi({
 
 
 
-export const {useCreateUserMutation, useLoginUserMutation, useRefreshTokenMutation, useGetTicketsQuery, useSendTicketMutation, useViewTicketQuery, useUpdateTicketMutation, useDeleteTicketMutation, useGetTicketsSubmittedByUserQuery, useGetAdminsQuery, useGetAdminByIdQuery, useGetNonAdminsQuery, useGetUserQuery, useUpdateUserMutation, useGetContactsQuery, useGetCampaignsQuery, useGetCampaignByIdQuery, useCreateCampaignMutation, useUpdateCampaignMutation, useDeleteCampaignMutation} = api; 
+export const {useCreateUserMutation, useLoginUserMutation, useRefreshTokenMutation, useGetTicketsQuery, useSendTicketMutation, useViewTicketQuery, useUpdateTicketMutation, useDeleteTicketMutation, useGetTicketsSubmittedByUserQuery, useGetAdminsQuery, useGetAdminByIdQuery, useGetNonAdminsQuery, useGetUserQuery, useUpdateUserMutation, useGetContactsQuery, useGetCampaignsQuery, useGetCampaignByIdQuery, useCreateCampaignMutation, useUpdateCampaignMutation, useDeleteCampaignMutation, useCreateCommentMutation, useDeleteCommentMutation} = api; 
