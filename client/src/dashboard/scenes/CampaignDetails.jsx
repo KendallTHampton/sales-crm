@@ -23,7 +23,7 @@ const CampaignDetails = () => {
         }
     }, [campaign]);
 
-    console.log(campaignData)
+
     const statuses = ['New', 'Open', 'In Progress', 'On Hold', 'Completed']
     const types = ['SEO', 'Web Development', 'Analytics', 'Branding', 'Social Media']
 
