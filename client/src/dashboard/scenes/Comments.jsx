@@ -21,6 +21,7 @@ const CommentsSection = ({comments}) => {
         }
     };
 
+    console.log('Comments:', comments)
     return (
         <Box mt={4}>
             <Typography variant="h6">Comments</Typography>

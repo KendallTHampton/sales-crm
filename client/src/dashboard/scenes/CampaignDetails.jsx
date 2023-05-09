@@ -23,7 +23,7 @@ const CampaignDetails = () => {
         }
     }, [campaign]);
 
-
+    console.log(campaignData)
     const statuses = ['New', 'Open', 'In Progress', 'Completed']
     const types = ['SEO', 'Web Development', 'Analytics', 'Branding', 'Social Media']
 
@@ -61,7 +61,7 @@ const CampaignDetails = () => {
         return `${ year }-${ month }-${ day }`;
     };
 
-
+    console.log(campaignData)
     return (
         <Box padding="6rem 2rem">
             <h2 style={{color: 'rgba(60, 60, 68, 1)', marginBottom: '2rem'}}>
@@ -90,8 +90,8 @@ const CampaignDetails = () => {
                         <Typography>{campaignData.name}</Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Label label="Revenue" />
-                        <Typography>${campaignData.revenue}</Typography>
+                        <Label label="Budget" />
+                        <Typography>${campaignData.budget}</Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Label label="Start Date" />

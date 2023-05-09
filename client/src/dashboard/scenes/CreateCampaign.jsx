@@ -42,6 +42,7 @@ const CreateCampaign = () => {
     const [endDateChange, setEndDateChange] = useState('');
     const [category, setCategory] = useState('');
     const [campaignStatus, setCampaignStatus] = useState('New');
+    const [budget, setBudget] = useState(0);
     const navigate = useNavigate()
 
     const handleSUbmit = async (e) => {
@@ -60,6 +61,7 @@ const CreateCampaign = () => {
                     endDate: new Date(endDateChange).toISOString(),
                     description: newComment,
                     ownedBy: userObject._id,
+                    budget: budget,
                 }
                 await createACampaign(campaignData)
                 navigate('/dashboard/campaigns')
@@ -141,7 +143,21 @@ const CreateCampaign = () => {
                         </Select>
                     </Grid>
 
-
+                    <Grid item xs={12} md={12}>
+                        <Label label="Budget" />
+                        <input
+                            required
+                            onChange={(e) => setBudget(e.target.value)}
+                            style={{
+                                padding: '.75rem',
+                                border: '1px solid #b7b7b7',
+                                borderRadius: '4px',
+                                marginBottom: '1rem',
+                                fontSize: '16px',
+                                lineHeight: '24px',
+                            }}
+                            type="number" />
+                    </Grid>
 
 
                     <Grid item xs={12} md={12}>
