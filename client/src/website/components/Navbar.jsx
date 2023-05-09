@@ -109,6 +109,8 @@ function Navbar() {
                             onClick={() => {
                                 setAnchorEl(null);
                                 localStorage.removeItem('user');
+                                localStorage.removeItem('accessToken')
+                                localStorage.removeItem('refreshToken')
                                 dispatch(signUserOut());
                             }
 

@@ -71,7 +71,18 @@ function Login() {
     return (
         <section className={styles.section}>
             <div className={styles.formContainer}>
-                <h2>Sign In</h2>
+                <div className={styles.formHeader}>
+                    <h2>Sign In</h2>
+                    <button className={styles.signInAsAdmin} onClick={() => {
+                        emailRef.current.value = "Admin@gmail.com";
+                        passwordRef.current.value = "Admin1";
+                        confirmPasswordRef.current.value = "Admin1";
+                    }}
+                    >
+                        Demo: Sign In as Admin
+                    </button>
+
+                </div>
                 {error && <p className={styles.error}>{error}</p>}
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <div className={styles.formControls}>
@@ -84,27 +95,7 @@ function Login() {
                 </form>
             </div>
 
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    position: 'absolute',
-                    top: '80%',
-                    left: '50%',
-                    padding: '1rem',
-                    borderRadius: '5px',
-                    transform: 'translate(-50%, 0%)',
-                    backgroundColor: 'white',
-                }}>
-                <h4
-                    style={{marginBottom: '0.5rem'}}
-                >
-                    Admin Credentials
-                </h4>
 
-                <p style={{color: 'gray'}}>Email: <span style={{color: 'black'}}>Admin@gmail.com</span> </p>
-                <p style={{color: 'gray'}}>Password: <span style={{color: 'black'}}>Admin1</span></p>
-            </div>
 
         </section>
     )

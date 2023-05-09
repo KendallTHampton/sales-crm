@@ -8,6 +8,21 @@
     background-color: var(--secondary-color);
 }
 
+.formHeader {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+}
+
+.signInAsAdmin {
+    padding: .4rem;
+    background: #606060;
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
 .formContainer {
     display: flex;
     flex-direction: column;
